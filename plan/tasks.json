@@ -1,0 +1,3896 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-23",
+  "statusValues": [
+    "planned",
+    "ready",
+    "in_progress",
+    "blocked",
+    "done",
+    "cancelled"
+  ],
+  "priorityValues": [
+    "P0",
+    "P1",
+    "P2"
+  ],
+  "gates": [
+    {
+      "id": "G0",
+      "name": "Baseline approval",
+      "status": "in_progress",
+      "exitCriteria": "All decisions dispositioned; docs/schemas promoted; technical and product sign-off."
+    },
+    {
+      "id": "G1",
+      "name": "Foundation",
+      "status": "blocked",
+      "exitCriteria": "Clean clone builds; lint, typecheck, unit smoke, task validator, and CI pass."
+    },
+    {
+      "id": "G2",
+      "name": "Contract/data",
+      "status": "blocked",
+      "exitCriteria": "Domain/SQL/config/map conformance; migrations run; no hardcoded TBD."
+    },
+    {
+      "id": "G3",
+      "name": "Identity/join",
+      "status": "blocked",
+      "exitCriteria": "Guest, link/merge, world list, join, spawn, and authz tests pass."
+    },
+    {
+      "id": "G4",
+      "name": "Runtime/persistence",
+      "status": "blocked",
+      "exitCriteria": "Deterministic tick, durable command, StateView leak, crash/replay, lease tests pass."
+    },
+    {
+      "id": "G5",
+      "name": "Core gameplay",
+      "status": "blocked",
+      "exitCriteria": "FR-010 to FR-024 core rules and a 30-day bot season pass."
+    },
+    {
+      "id": "G6",
+      "name": "Social/economy",
+      "status": "blocked",
+      "exitCriteria": "Trade and alliance matrices pass, including war freeze and escrow."
+    },
+    {
+      "id": "G7",
+      "name": "Commerce",
+      "status": "blocked",
+      "exitCriteria": "Pass/shop/RevenueCat sandbox passes; web read-only; no pay-to-win."
+    },
+    {
+      "id": "G8",
+      "name": "Web client",
+      "status": "blocked",
+      "exitCriteria": "390px E2E, visual, accessibility, reconnect, and read-only shop pass."
+    },
+    {
+      "id": "G9",
+      "name": "Mobile",
+      "status": "blocked",
+      "exitCriteria": "Android/iOS builds, native auth, IAP sandbox, safe areas, store metadata."
+    },
+    {
+      "id": "G10",
+      "name": "Admin",
+      "status": "blocked",
+      "exitCriteria": "Admin authz, audit, moderation, and no-SQL-console checks pass."
+    },
+    {
+      "id": "G11",
+      "name": "Ops",
+      "status": "blocked",
+      "exitCriteria": "Deploy, tunnel, backups, restore drill, Sentry, runbooks, security checks."
+    },
+    {
+      "id": "G12",
+      "name": "Launch",
+      "status": "blocked",
+      "exitCriteria": "01 section 12 acceptance, store approval, legal, load/recovery, no P0/P1 defects."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-TIE",
+      "name": "Exact combat-power tie",
+      "source": "03 section 20.1 and 09 section 9.4",
+      "status": "approved",
+      "blocks": [
+        "P0-E1-T1",
+        "P5-E2-T3"
+      ],
+      "recommendation": "Approved 2026-10-23: defender wins; attacker loses all; defender loses 50 percent (DEFAULT, config-driven). Mutual wipe rejected.",
+      "approvedAt": "2026-10-23"
+    },
+    {
+      "id": "D-PD",
+      "name": "41 proposed defaults",
+      "source": "03 section 20.2",
+      "status": "approved",
+      "blocks": [
+        "P0-E1-T2",
+        "P2-E1-T2",
+        "P2-E1-T4",
+        "P5-E1-T1",
+        "P5-E1-T3",
+        "P5-E2-T1",
+        "P5-E2-T2",
+        "P5-E2-T3",
+        "P5-E2-T4",
+        "P5-E3-T1",
+        "P5-E3-T2",
+        "P5-E3-T3",
+        "P6-E1-T1",
+        "P6-E1-T2"
+      ],
+      "recommendation": "Approved 2026-10-23: items 1-16 and 18-41; item 17 remains TBD under D-TBD-SUPPORT. Dispositions recorded in plan/G0-baseline-approval.md."
+    },
+    {
+      "id": "D-TBD-MOVE",
+      "name": "Movement, recall, ability range, missile damage",
+      "source": "03 section 20.3 items 2-4, 18, 23",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E2-T2",
+        "P5-E2-T4"
+      ],
+      "recommendation": "Design proposes values; engineering adds config keys."
+    },
+    {
+      "id": "D-TBD-ECON",
+      "name": "Water shortage, unpaid penalty, loot gold, doctrine cost",
+      "source": "03 section 20.3 items 5-7, 9, 24",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E1-T1"
+      ],
+      "recommendation": "Design proposes values."
+    },
+    {
+      "id": "D-TBD-QUEUE",
+      "name": "Training costs, times, batches, slot upgrades",
+      "source": "03 section 20.3 items 8, 21",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E1-T2"
+      ],
+      "recommendation": "Design proposes values."
+    },
+    {
+      "id": "D-TBD-TRADE",
+      "name": "Offer lifetime, bundles, state-exchange rates",
+      "source": "03 section 20.3 item 10",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P6-E1-T1"
+      ],
+      "recommendation": "Design proposes values."
+    },
+    {
+      "id": "D-TBD-AI",
+      "name": "AI cadence, scoring, replenishment, retreat",
+      "source": "03 section 20.3 item 11",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E3-T2"
+      ],
+      "recommendation": "Design proposes values and test expectations."
+    },
+    {
+      "id": "D-TBD-SUPPORT",
+      "name": "Major battle threshold, rebel army size",
+      "source": "03 section 20.3 items 12-13",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E3-T1"
+      ],
+      "recommendation": "Design proposes values."
+    },
+    {
+      "id": "D-TBD-SCORE",
+      "name": "Score constants and components",
+      "source": "03 section 20.3 item 14",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E3-T3"
+      ],
+      "recommendation": "Design proposes values."
+    },
+    {
+      "id": "D-TBD-PASS",
+      "name": "XP, missions, reward catalog",
+      "source": "03 section 20.3 item 15",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P7-E1-T1"
+      ],
+      "recommendation": "Product and design propose values."
+    },
+    {
+      "id": "D-TBD-SHOP",
+      "name": "Catalog, prices, refund window, receipt rules",
+      "source": "03 section 20.3 item 16",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P7-E1-T2"
+      ],
+      "recommendation": "Product and business propose values."
+    },
+    {
+      "id": "D-TBD-NOTIFY",
+      "name": "In-game notification presentation and priority",
+      "source": "03 section 20.3 item 17",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P8-E2-T1"
+      ],
+      "recommendation": "Design proposes."
+    },
+    {
+      "id": "D-TBD-ACCOUNT",
+      "name": "Deletion, ban, guest-merge edge cases",
+      "source": "03 section 20.3 item 20",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P3-E1-T4"
+      ],
+      "recommendation": "Legal and engineering propose."
+    },
+    {
+      "id": "D-TBD-RESEARCH",
+      "name": "Tech costs and late-era gold",
+      "source": "03 section 20.3 item 21",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E1-T3"
+      ],
+      "recommendation": "Design proposes."
+    },
+    {
+      "id": "D-TBD-CAPITAL",
+      "name": "Voluntary relocation cost",
+      "source": "03 section 20.3 item 22",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T3",
+        "P2-E1-T2",
+        "P5-E2-T1"
+      ],
+      "recommendation": "Design proposes."
+    },
+    {
+      "id": "D-PLATFORM",
+      "name": "iOS/Android/browser minimums, orientation",
+      "source": "01 section 13.2",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P3-E1-T1",
+        "P8-E1-T1",
+        "P8-E2-T4",
+        "P9-E1-T1",
+        "P9-E2-T1",
+        "P12-E1-T4"
+      ],
+      "recommendation": "Engineering proposes; product confirms."
+    },
+    {
+      "id": "D-LEGAL",
+      "name": "Jurisdiction, terms, privacy, refunds, tax, age rating, deletion/export",
+      "source": "01 section 13.2 and NFR-009",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P3-E1-T1",
+        "P9-E2-T1",
+        "P11-E2-T2",
+        "P12-E1-T5",
+        "P12-E1-T6",
+        "P12-E1-T7"
+      ],
+      "recommendation": "Legal and business own."
+    },
+    {
+      "id": "D-INFRA",
+      "name": "EC2 type/region/OS, domain, registry, RPO/RTO",
+      "source": "01 section 13.2 and 04 section 9",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P0-E2-T4",
+        "P1-E1-T3",
+        "P1-E2-T1",
+        "P4-E1-T1",
+        "P11-E1-T1",
+        "P11-E1-T2",
+        "P11-E1-T3",
+        "P11-E1-T4"
+      ],
+      "recommendation": "Engineering and ops own."
+    },
+    {
+      "id": "D-STORES",
+      "name": "RevenueCat project, products, entitlement IDs, prices",
+      "source": "04 section 8",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T1",
+        "P7-E1-T3",
+        "P7-E1-T4",
+        "P7-E1-T5",
+        "P9-E1-T3",
+        "P9-E2-T1",
+        "P12-E1-T6"
+      ],
+      "recommendation": "Engineering and business own."
+    },
+    {
+      "id": "D-PLUGINS",
+      "name": "Native social-login and secure-storage packages",
+      "source": "04 section 9.8",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T2",
+        "P9-E1-T2"
+      ],
+      "recommendation": "Engineering spike; pin exact versions."
+    },
+    {
+      "id": "D-ADMIN",
+      "name": "Admin hosting and auth model",
+      "source": "04 section 9.6 and 06 section 12.6",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T3",
+        "P10-E1-T1",
+        "P10-E1-T2",
+        "P10-E1-T3"
+      ],
+      "recommendation": "Product and engineering own."
+    },
+    {
+      "id": "D-METRICS",
+      "name": "Success-metric source, retention, dashboard",
+      "source": "01 FR-032",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T5",
+        "P11-E2-T1"
+      ],
+      "recommendation": "Product and engineering own."
+    },
+    {
+      "id": "D-RLS",
+      "name": "Runtime DB role and RLS policy",
+      "source": "06 section 15",
+      "status": "open",
+      "blocks": [
+        "P1-E2-T2",
+        "P2-E2-T1",
+        "P2-E2-T2",
+        "P3-E1-T2",
+        "P4-E2-T2",
+        "P11-E1-T4",
+        "P11-E2-T2",
+        "P12-E1-T5"
+      ],
+      "recommendation": "Engineering and security own."
+    },
+    {
+      "id": "D-MAP",
+      "name": "Final map values, pan/zoom, spawn geometry",
+      "source": "01 section 13.2 and 02 section 19",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P2-E1-T2",
+        "P2-E1-T3",
+        "P3-E2-T2",
+        "P4-E3-T1",
+        "P8-E1-T3"
+      ],
+      "recommendation": "Design and engineering own."
+    },
+    {
+      "id": "D-WAR-TIME",
+      "name": "War-window start time per world",
+      "source": "01 section 13.2",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P2-E1-T2",
+        "P3-E2-T1",
+        "P3-E2-T2",
+        "P4-E1-T3"
+      ],
+      "recommendation": "Product and ops own."
+    },
+    {
+      "id": "D-PASS-PROGRESS",
+      "name": "Per-period vs season-scoped pass progress",
+      "source": "PC-02",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T5",
+        "P2-E1-T1",
+        "P5-E3-T3",
+        "P7-E1-T1"
+      ],
+      "recommendation": "Recommend per-period, matching 09 section 14.2."
+    },
+    {
+      "id": "D-SEASON-END",
+      "name": "season_end vs ends_at",
+      "source": "PC-03",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T5",
+        "P2-E1-T1",
+        "P4-E1-T3",
+        "P4-E2-T3"
+      ],
+      "recommendation": "Recommend season_end as the single field."
+    },
+    {
+      "id": "D-CONFIG-PIN",
+      "name": "Content-addressed config/map or stored hashes",
+      "source": "PC-05",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T5",
+        "P2-E1-T1",
+        "P2-E2-T1",
+        "P4-E2-T1"
+      ],
+      "recommendation": "Recommend content-addressed IDs plus stored hashes."
+    },
+    {
+      "id": "D-CAPACITY",
+      "name": "3-5 worlds per host",
+      "source": "01 NFR-015",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T4",
+        "P4-E3-T2",
+        "P12-E1-T2"
+      ],
+      "recommendation": "Validate with k6; no guarantee before G11."
+    },
+    {
+      "id": "D-STAGING",
+      "name": "Staging environment shape",
+      "source": "05 section 17.1",
+      "status": "open",
+      "blocks": [
+        "P0-E2-T4"
+      ],
+      "recommendation": "Recommend separate Supabase project and hostname; no production data."
+    },
+    {
+      "id": "D-DEFERRAL",
+      "name": "Any scope deferral",
+      "source": "01 section 9.3",
+      "status": "open",
+      "blocks": [
+        "P12-E1-T7"
+      ],
+      "recommendation": "No deferral approved. Mobile, then shop, then abilities only with explicit approval."
+    },
+    {
+      "id": "D-NAMING",
+      "name": "Trademark, region/faction names, emblem set",
+      "source": "01 section 13.2",
+      "status": "open",
+      "blocks": [
+        "P0-E1-T4",
+        "P3-E1-T3",
+        "P8-E1-T2",
+        "P10-E1-T3"
+      ],
+      "recommendation": "Business, legal, and art own."
+    }
+  ],
+  "phases": [
+    {
+      "id": "P0",
+      "name": "Decision closure and baseline approval",
+      "gate": "G0",
+      "status": "in_progress"
+    },
+    {
+      "id": "P1",
+      "name": "Monorepo foundation and CI",
+      "gate": "G1",
+      "status": "pending"
+    },
+    {
+      "id": "P2",
+      "name": "Contracts, config, map, and database",
+      "gate": "G2",
+      "status": "pending"
+    },
+    {
+      "id": "P3",
+      "name": "Identity, accounts, and world access",
+      "gate": "G3",
+      "status": "pending"
+    },
+    {
+      "id": "P4",
+      "name": "World runtime, persistence, and recovery",
+      "gate": "G4",
+      "status": "pending"
+    },
+    {
+      "id": "P5",
+      "name": "Core season gameplay",
+      "gate": "G5",
+      "status": "pending"
+    },
+    {
+      "id": "P6",
+      "name": "Trade and alliances",
+      "gate": "G6",
+      "status": "pending"
+    },
+    {
+      "id": "P7",
+      "name": "Pass, shop, and RevenueCat",
+      "gate": "G7",
+      "status": "pending"
+    },
+    {
+      "id": "P8",
+      "name": "Web client, map, and UI",
+      "gate": "G8",
+      "status": "pending"
+    },
+    {
+      "id": "P9",
+      "name": "Android and iOS packaging",
+      "gate": "G9",
+      "status": "pending"
+    },
+    {
+      "id": "P10",
+      "name": "Admin and moderation",
+      "gate": "G10",
+      "status": "pending"
+    },
+    {
+      "id": "P11",
+      "name": "Infrastructure, security, observability, and backups",
+      "gate": "G11",
+      "status": "pending"
+    },
+    {
+      "id": "P12",
+      "name": "Verification and launch readiness",
+      "gate": "G12",
+      "status": "pending"
+    },
+    {
+      "id": "P13",
+      "name": "Launch and hypercare",
+      "gate": null,
+      "status": "pending"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "P0-E1-T1",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Resolve exact-power tie",
+      "priority": "P0",
+      "status": "done",
+      "dependsOn": [],
+      "decisionGate": [
+        "D-TIE"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+design",
+      "size": "M",
+      "acceptance": [
+        "03 section 20.1 has one approved rule",
+        "Tie is deterministic and uses unrounded power",
+        "06 battle result shape remains valid"
+      ],
+      "tests": [
+        "T-COMBAT tie cases (automated in P5-E2-T3)",
+        "Replay hash"
+      ],
+      "evidence": [
+        "03 section 8.4 and 20.1 updated 2026-10-23",
+        "09 section 9.4 updated 2026-10-23",
+        "02 section 10.3 and 19 updated 2026-10-23",
+        "05 section 11.6 and A-01 updated 2026-10-23",
+        "06 section 10.4 and 18.1 updated 2026-10-23"
+      ]
+    },
+    {
+      "id": "P0-E1-T2",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Approve or reject 03 section 20.2 proposed defaults",
+      "priority": "P0",
+      "status": "done",
+      "dependsOn": [],
+      "decisionGate": [
+        "D-PD"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+design",
+      "size": "L",
+      "acceptance": [
+        "Every item 1-41 has a disposition and owner",
+        "No approved item remains PROPOSED",
+        "Item 17 stays TBD until threshold is chosen"
+      ],
+      "tests": [
+        "Documentation lint",
+        "Config-key coverage",
+        "03 section 20.4 checklist"
+      ],
+      "evidence": [
+      "plan/G0-baseline-approval.md",
+      "specs/09-v1-design-lock.md rows 56-95",
+      "plan/03-gameplay-rules.md section 20.2 and section 20.4",
+      "plan/07-implementation-plan.md D-PD row updated 2026-10-23"
+    ]
+    },
+    {
+      "id": "P0-E1-T3",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Resolve remaining 03 section 20.3 TBDs",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T2"
+      ],
+      "decisionGate": [
+        "D-TBD-MOVE",
+        "D-TBD-ECON",
+        "D-TBD-QUEUE",
+        "D-TBD-TRADE",
+        "D-TBD-AI",
+        "D-TBD-SUPPORT",
+        "D-TBD-SCORE",
+        "D-TBD-PASS",
+        "D-TBD-SHOP",
+        "D-TBD-NOTIFY",
+        "D-TBD-ACCOUNT",
+        "D-TBD-RESEARCH",
+        "D-TBD-CAPITAL"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+design",
+      "size": "L",
+      "acceptance": [
+        "Every TBD is resolved or deferred with no task dependency",
+        "Each resolved value has a config key and test vector"
+      ],
+      "tests": [
+        "Config schema completeness",
+        "config:check missing-value failure",
+        "Traceability review"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E1-T4",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Resolve 01 section 13.2 and 02 section 19 open questions",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T2",
+        "P0-E1-T3"
+      ],
+      "decisionGate": [
+        "D-PLATFORM",
+        "D-LEGAL",
+        "D-INFRA",
+        "D-MAP",
+        "D-WAR-TIME",
+        "D-NAMING"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+tech-lead",
+      "size": "M",
+      "acceptance": [
+        "No orphan question remains in 01 or 02",
+        "Each has a disposition or a gate"
+      ],
+      "tests": [
+        "Cross-document link check",
+        "Decision-register validator"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E1-T5",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Correct cross-document inconsistencies",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T4"
+      ],
+      "decisionGate": [
+        "D-PASS-PROGRESS",
+        "D-SEASON-END",
+        "D-CONFIG-PIN"
+      ],
+      "blockedBy": [],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "04 no longer says pass progress is season-scoped",
+        "05 uses season_end",
+        "05 uses typed actor columns",
+        "Config pinning is explicit"
+      ],
+      "tests": [
+        "Markdown term scan",
+        "Link check",
+        "Schema/domain review"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E1-T6",
+      "phase": "P0",
+      "epic": "P0-E1",
+      "title": "Build decision register and traceability map",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T1",
+        "P0-E1-T2",
+        "P0-E1-T3",
+        "P0-E1-T4",
+        "P0-E1-T5"
+      ],
+      "decisionGate": [],
+      "blockedBy": [],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "Every decision has a status",
+        "Every gated task references an existing decision",
+        "Every FR-001 to FR-033 maps to a task"
+      ],
+      "tests": [
+        "tasks.json validator",
+        "Traceability completeness check"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E2-T1",
+      "phase": "P0",
+      "epic": "P0-E2",
+      "title": "Verify RevenueCat non-renewing pass mapping",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T2"
+      ],
+      "decisionGate": [
+        "D-STORES"
+      ],
+      "blockedBy": [],
+      "ownerRole": "mobile+business",
+      "size": "M",
+      "acceptance": [
+        "Sandbox purchase, restore, expiry, refund, and duplicate webhook are understood",
+        "Product IDs and entitlement IDs are recorded",
+        "No web checkout"
+      ],
+      "tests": [
+        "Sandbox checklist",
+        "Webhook fixture replay",
+        "Entitlement idempotency"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E2-T2",
+      "phase": "P0",
+      "epic": "P0-E2",
+      "title": "Pin native social and secure-storage plugins",
+      "priority": "P0",
+      "status": "ready",
+      "dependsOn": [],
+      "decisionGate": [
+        "D-PLUGINS"
+      ],
+      "blockedBy": [],
+      "ownerRole": "mobile",
+      "size": "M",
+      "acceptance": [
+        "One social path and one secure-storage path are approved for Android and iOS",
+        "Fallback plan documented"
+      ],
+      "tests": [
+        "Device spike on both platforms",
+        "Token-to-Supabase signInWithIdToken",
+        "Keychain/Keystore persistence"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E2-T3",
+      "phase": "P0",
+      "epic": "P0-E2",
+      "title": "Approve admin hosting and auth model",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T4"
+      ],
+      "decisionGate": [
+        "D-ADMIN"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+security",
+      "size": "S",
+      "acceptance": [
+        "Admin hostname, auth flow, role claim, allowlist owner, and audit requirements are approved"
+      ],
+      "tests": [
+        "Threat-model review",
+        "Authz matrix draft"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E2-T4",
+      "phase": "P0",
+      "epic": "P0-E2",
+      "title": "Pin infrastructure and capacity inputs",
+      "priority": "P0",
+      "status": "ready",
+      "dependsOn": [],
+      "decisionGate": [
+        "D-INFRA",
+        "D-CAPACITY",
+        "D-STAGING"
+      ],
+      "blockedBy": [],
+      "ownerRole": "devops",
+      "size": "M",
+      "acceptance": [
+        "Deployment can be planned without guessing",
+        "Capacity target is testable",
+        "Staging cannot touch production data"
+      ],
+      "tests": [
+        "Infra checklist",
+        "Restore/RTO tabletop"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E2-T5",
+      "phase": "P0",
+      "epic": "P0-E2",
+      "title": "Define metrics source and reporting",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T4"
+      ],
+      "decisionGate": [
+        "D-METRICS"
+      ],
+      "blockedBy": [],
+      "ownerRole": "product+server",
+      "size": "M",
+      "acceptance": [
+        "Each success metric has source, event shape, retention, and reporting path",
+        "No new vendor",
+        "No PII beyond policy"
+      ],
+      "tests": [
+        "Metric mapping review",
+        "Sample query or log extraction",
+        "Retention check"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E3-T1",
+      "phase": "P0",
+      "epic": "P0-E3",
+      "title": "Write architecture decision records",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E1-T1",
+        "P0-E1-T2",
+        "P0-E1-T3",
+        "P0-E1-T4",
+        "P0-E1-T5",
+        "P0-E2-T1",
+        "P0-E2-T2",
+        "P0-E2-T3",
+        "P0-E2-T4",
+        "P0-E2-T5"
+      ],
+      "decisionGate": [],
+      "blockedBy": [],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "Each ADR states context, decision, alternatives, consequences, and rollback",
+        "No ADR overrides 09"
+      ],
+      "tests": [
+        "Architecture review",
+        "Cross-reference check"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E3-T2",
+      "phase": "P0",
+      "epic": "P0-E3",
+      "title": "Promote decisions into docs and schemas",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E3-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [],
+      "ownerRole": "tech-lead",
+      "size": "L",
+      "acceptance": [
+        "Strict TypeScript compile",
+        "SQL parse and migration review",
+        "Markdown link/table checks",
+        "No unresolved PROPOSED/TBD in an implemented path"
+      ],
+      "tests": [
+        "tsc --strict",
+        "SQL formatter/parser",
+        "Markdown checker",
+        "Schema conformance"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P0-E3-T3",
+      "phase": "P0",
+      "epic": "P0-E3",
+      "title": "Hold G0 baseline review",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [
+        "P0-E3-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [],
+      "ownerRole": "tech-lead+product",
+      "size": "S",
+      "acceptance": [
+        "G0 evidence is attached",
+        "Open items are explicitly deferred with no task dependency",
+        "Plan and register are approved"
+      ],
+      "tests": [
+        "G0 checklist",
+        "Decision-register audit"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E1-T1",
+      "phase": "P1",
+      "epic": "P1-E1",
+      "title": "Initialize repository and workspace",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P0-E3-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G0"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "Clean clone has the documented layout",
+        "No secrets or generated build output are committed"
+      ],
+      "tests": [
+        "Clean-clone smoke",
+        "Secret scan"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E1-T2",
+      "phase": "P1",
+      "epic": "P1-E1",
+      "title": "Create package skeleton",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G0"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "Dependency direction in 05 section 4.1 is enforced",
+        "Packages build independently"
+      ],
+      "tests": [
+        "pnpm -r build",
+        "Dependency-boundary lint"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E1-T3",
+      "phase": "P1",
+      "epic": "P1-E1",
+      "title": "Pin toolchain and run TypeScript compatibility gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T2"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G0",
+        "D-INFRA"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "Exact versions are pinned in package.json, lockfile, and Docker image",
+        "tsc -b passes on the skeleton",
+        "Approved 6.x fallback exists if TS 7 fails"
+      ],
+      "tests": [
+        "CI matrix",
+        "Lockfile check",
+        "Docker build"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E1-T4",
+      "phase": "P1",
+      "epic": "P1-E1",
+      "title": "Add lint, format, test, and task-register validation",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G0"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "A sample failing test blocks CI",
+        "Task IDs and dependencies validate",
+        "Docs checks run"
+      ],
+      "tests": [
+        "Validator self-test with duplicate/missing IDs",
+        "Lint/format smoke"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E2-T1",
+      "phase": "P1",
+      "epic": "P1-E2",
+      "title": "Build CI and security pipeline",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T4"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G0",
+        "D-INFRA"
+      ],
+      "ownerRole": "devops",
+      "size": "M",
+      "acceptance": [
+        "Required checks block merge",
+        "No long-lived cloud keys in GitHub"
+      ],
+      "tests": [
+        "Intentionally failing PR",
+        "Secret-scan fixture"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E2-T2",
+      "phase": "P1",
+      "epic": "P1-E2",
+      "title": "Set up local dev and environment schema",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T2"
+      ],
+      "decisionGate": [
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G0",
+        "D-RLS"
+      ],
+      "ownerRole": "server+devops",
+      "size": "M",
+      "acceptance": [
+        "New developer can boot from the README",
+        "Invalid env fails fast",
+        "No production secrets"
+      ],
+      "tests": [
+        "Clean-machine bootstrap",
+        "Env failure tests"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P1-E2-T3",
+      "phase": "P1",
+      "epic": "P1-E2",
+      "title": "Hold G1 foundation gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E1-T4",
+        "P1-E2-T1",
+        "P1-E2-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G0"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "G1 evidence is attached",
+        "All P0 foundation tasks are done",
+        "No gameplay code exists yet"
+      ],
+      "tests": [
+        "G1 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E1-T1",
+      "phase": "P2",
+      "epic": "P2-E1",
+      "title": "Build shared protocol package",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P1-E2-T3"
+      ],
+      "decisionGate": [
+        "D-PASS-PROGRESS",
+        "D-SEASON-END",
+        "D-CONFIG-PIN"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-PASS-PROGRESS",
+        "D-SEASON-END",
+        "D-CONFIG-PIN"
+      ],
+      "ownerRole": "server+client",
+      "size": "L",
+      "acceptance": [
+        "domain.ts types are represented in runtime schemas",
+        "Unknown fields are rejected",
+        "Protocol version is explicit"
+      ],
+      "tests": [
+        "Schema roundtrip",
+        "Unknown-field rejection",
+        "Error-code coverage"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E1-T2",
+      "phase": "P2",
+      "epic": "P2-E1",
+      "title": "Build config package and schema",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T1"
+      ],
+      "decisionGate": [
+        "D-PD",
+        "D-TBD-MOVE",
+        "D-TBD-ECON",
+        "D-TBD-QUEUE",
+        "D-TBD-TRADE",
+        "D-TBD-AI",
+        "D-TBD-SUPPORT",
+        "D-TBD-SCORE",
+        "D-TBD-PASS",
+        "D-TBD-SHOP",
+        "D-TBD-NOTIFY",
+        "D-TBD-ACCOUNT",
+        "D-TBD-RESEARCH",
+        "D-TBD-CAPITAL",
+        "D-MAP",
+        "D-WAR-TIME"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Missing or proposed/TBD values fail",
+        "World can pin a config version/hash",
+        "No balance value is hardcoded"
+      ],
+      "tests": [
+        "Config validation",
+        "Missing-value failure",
+        "Version/hash immutability"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E1-T3",
+      "phase": "P2",
+      "epic": "P2-E1",
+      "title": "Build Vardania map-data package",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T1"
+      ],
+      "decisionGate": [
+        "D-MAP"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-MAP"
+      ],
+      "ownerRole": "design+server",
+      "size": "L",
+      "acceptance": [
+        "Every province is land-reachable",
+        "Every capital has food/water within 2 hops and a weak adjacent target",
+        "No adjacent player capitals",
+        "No naval province"
+      ],
+      "tests": [
+        "Connectivity",
+        "Spawn invariants",
+        "Mask hit-test",
+        "Map hash stability"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E1-T4",
+      "phase": "P2",
+      "epic": "P2-E1",
+      "title": "Build game-rules primitives",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T1",
+        "P2-E1-T2"
+      ],
+      "decisionGate": [
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-PD"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Pure package imports no Node, DB, network, React, or browser code",
+        "Same inputs produce same output"
+      ],
+      "tests": [
+        "Property tests",
+        "Replay hash",
+        "Dependency-boundary lint"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E2-T1",
+      "phase": "P2",
+      "epic": "P2-E2",
+      "title": "Create Drizzle schema and first migration",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T1"
+      ],
+      "decisionGate": [
+        "D-RLS",
+        "D-CONFIG-PIN"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-RLS",
+        "D-CONFIG-PIN"
+      ],
+      "ownerRole": "data",
+      "size": "L",
+      "acceptance": [
+        "Migration runs from empty",
+        "Schema matches 06",
+        "province_garrison is a view",
+        "No DB sequence inside a tick"
+      ],
+      "tests": [
+        "Migration up/down where safe",
+        "Schema diff",
+        "SQL parse and execution"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E2-T2",
+      "phase": "P2",
+      "epic": "P2-E2",
+      "title": "Configure DB roles, RLS, metadata, and seeds",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E2-T1"
+      ],
+      "decisionGate": [
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G1",
+        "D-RLS"
+      ],
+      "ownerRole": "data+security",
+      "size": "M",
+      "acceptance": [
+        "Browser cannot read game",
+        "Runtime role has least privilege",
+        "Readiness fails on schema-version mismatch"
+      ],
+      "tests": [
+        "Role matrix",
+        "RLS denial",
+        "Schema-version failure"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E2-T3",
+      "phase": "P2",
+      "epic": "P2-E2",
+      "title": "Run domain, SQL, and documentation conformance",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T4",
+        "P2-E2-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G1"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "M",
+      "acceptance": [
+        "06 section 18.2 checklist is complete",
+        "No exact enemy counts in public types",
+        "No app email",
+        "No inventory/quest/chat table"
+      ],
+      "tests": [
+        "Strict TypeScript",
+        "SQL parser/execution",
+        "Custom conformance script"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P2-E2-T4",
+      "phase": "P2",
+      "epic": "P2-E2",
+      "title": "Hold G2 contract/data gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E2-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G1"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "G2 evidence is attached",
+        "No unresolved schema decision remains"
+      ],
+      "tests": [
+        "G2 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E1-T1",
+      "phase": "P3",
+      "epic": "P3-E1",
+      "title": "Configure Supabase Auth",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E2-T4"
+      ],
+      "decisionGate": [
+        "D-PLATFORM",
+        "D-LEGAL"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-PLATFORM",
+        "D-LEGAL"
+      ],
+      "ownerRole": "server+security",
+      "size": "M",
+      "acceptance": [
+        "Guest and social sessions work on web",
+        "No email login path exists",
+        "Secrets stay server-side"
+      ],
+      "tests": [
+        "Auth smoke",
+        "Provider callback",
+        "JWKS rotation"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E1-T2",
+      "phase": "P3",
+      "epic": "P3-E1",
+      "title": "Implement JWT verification and account provisioning",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T1"
+      ],
+      "decisionGate": [
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-RLS"
+      ],
+      "ownerRole": "server",
+      "size": "M",
+      "acceptance": [
+        "Client cannot choose account ID",
+        "Retries do not create two accounts",
+        "Banned accounts cannot join"
+      ],
+      "tests": [
+        "Valid/expired/wrong-audience tokens",
+        "Provisioning idempotency",
+        "Ban matrix"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E1-T3",
+      "phase": "P3",
+      "epic": "P3-E1",
+      "title": "Implement profile, name, and emblem validation",
+      "priority": "P1",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T2"
+      ],
+      "decisionGate": [
+        "D-NAMING"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-NAMING"
+      ],
+      "ownerRole": "server+design",
+      "size": "S",
+      "acceptance": [
+        "Names normalize consistently",
+        "Offensive names are rejected",
+        "No user-uploaded images"
+      ],
+      "tests": [
+        "Validation/fuzz",
+        "Profanity fixtures",
+        "Duplicate-name policy"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E1-T4",
+      "phase": "P3",
+      "epic": "P3-E1",
+      "title": "Implement guest-to-social link and merge",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T2"
+      ],
+      "decisionGate": [
+        "D-TBD-ACCOUNT"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-TBD-ACCOUNT"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Survivor has at most one controllable faction per world",
+        "Conflict requires explicit confirmation",
+        "Failure rolls back all",
+        "Duplicate link is idempotent"
+      ],
+      "tests": [
+        "Merge matrix",
+        "Entitlement move",
+        "Room resolution"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E2-T1",
+      "phase": "P3",
+      "epic": "P3-E2",
+      "title": "Implement world list, detail, and preflight",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T2"
+      ],
+      "decisionGate": [
+        "D-WAR-TIME"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-WAR-TIME"
+      ],
+      "ownerRole": "server",
+      "size": "M",
+      "acceptance": [
+        "No join after day 3",
+        "Full world rejects",
+        "Late joiners can pre-register",
+        "Public data has no hidden counts"
+      ],
+      "tests": [
+        "API contract",
+        "Join-window boundaries",
+        "Capacity race"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E2-T2",
+      "phase": "P3",
+      "epic": "P3-E2",
+      "title": "Implement join transaction and spawn",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E2-T1",
+        "P2-E1-T3"
+      ],
+      "decisionGate": [
+        "D-MAP",
+        "D-WAR-TIME"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-MAP",
+        "D-WAR-TIME"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Join is atomic",
+        "Duplicate/race cannot create two factions",
+        "Every spawn satisfies 03 section 4.4",
+        "Room receives initial state"
+      ],
+      "tests": [
+        "Join/duplicate/race",
+        "Spawn invariants",
+        "Snapshot presence"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P3-E2-T3",
+      "phase": "P3",
+      "epic": "P3-E2",
+      "title": "Hold G3 identity/join gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T4",
+        "P3-E2-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G2"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "G3 evidence is attached",
+        "No P0/P1 auth/join defect"
+      ],
+      "tests": [
+        "G3 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E1-T1",
+      "phase": "P4",
+      "epic": "P4-E1",
+      "title": "Build server composition root",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E2-T3"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-INFRA"
+      ],
+      "ownerRole": "server",
+      "size": "M",
+      "acceptance": [
+        "One process serves REST and WS",
+        "Readiness waits for assigned worlds",
+        "Shutdown writes a snapshot and releases leases"
+      ],
+      "tests": [
+        "Boot/shutdown",
+        "Readiness failure",
+        "Signal handling"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E1-T2",
+      "phase": "P4",
+      "epic": "P4-E1",
+      "title": "Implement room lifecycle, auth, reconnect, and spectator",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "No join before load",
+        "Paused/finished reject commands",
+        "Reconnect restores current state",
+        "Spectator sees public only"
+      ],
+      "tests": [
+        "Room harness",
+        "Reconnect expiry",
+        "Pause/finish",
+        "Spectator leak"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E1-T3",
+      "phase": "P4",
+      "epic": "P4-E1",
+      "title": "Implement tick scheduler and clock",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T1"
+      ],
+      "decisionGate": [
+        "D-WAR-TIME",
+        "D-SEASON-END"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-WAR-TIME",
+        "D-SEASON-END"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Phase/era derive from started_at",
+        "No device time",
+        "No skipped ticks",
+        "Overrun pauses/quarantines"
+      ],
+      "tests": [
+        "T-TIME 20 cases",
+        "Boundary transitions",
+        "Clock drift",
+        "Catch-up"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E1-T4",
+      "phase": "P4",
+      "epic": "P4-E1",
+      "title": "Implement command pipeline and idempotency",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T1",
+        "P4-E1-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "No ack before durable commit",
+        "Duplicate returns original result",
+        "Stale version returns STALE_STATE",
+        "Rejected intent mutates nothing"
+      ],
+      "tests": [
+        "Duplicate",
+        "Stale",
+        "DB failure",
+        "Rate limit",
+        "Rejection atomicity"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E1-T5",
+      "phase": "P4",
+      "epic": "P4-E1",
+      "title": "Implement StateView and Colyseus schema",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Exact enemy counts never enter shared schema",
+        "Support is public exact",
+        "Allies do not see resources/queues/research/missions",
+        "Spectator public only"
+      ],
+      "tests": [
+        "Serialization leak matrix",
+        "Ally visibility",
+        "Battle-party visibility"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E2-T1",
+      "phase": "P4",
+      "epic": "P4-E2",
+      "title": "Implement snapshots, event log, and receipts",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T4"
+      ],
+      "decisionGate": [
+        "D-CONFIG-PIN"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-CONFIG-PIN"
+      ],
+      "ownerRole": "server+data",
+      "size": "L",
+      "acceptance": [
+        "Same state serializes to same hash",
+        "Snapshot failure does not block ack",
+        "Projections are idempotent",
+        "No truncate during season"
+      ],
+      "tests": [
+        "Snapshot hash",
+        "Transaction order",
+        "Projection rebuild",
+        "Retention job"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E2-T2",
+      "phase": "P4",
+      "epic": "P4-E2",
+      "title": "Implement lease, heartbeat, and fencing",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T4"
+      ],
+      "decisionGate": [
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-RLS"
+      ],
+      "ownerRole": "server+data",
+      "size": "M",
+      "acceptance": [
+        "Two writers cannot append",
+        "Stale snapshot/event write rejected",
+        "DB outage degrades then pauses"
+      ],
+      "tests": [
+        "Split-brain",
+        "Expired lease",
+        "Heartbeat loss",
+        "Duplicate seq"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E2-T3",
+      "phase": "P4",
+      "epic": "P4-E2",
+      "title": "Implement recovery, replay, and quarantine",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T1",
+        "P4-E2-T1",
+        "P4-E2-T2"
+      ],
+      "decisionGate": [
+        "D-SEASON-END"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-SEASON-END"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Replay reproduces state hash",
+        "Audit-only events skipped",
+        "AI state recomputed",
+        "Corrupt state quarantines and alerts"
+      ],
+      "tests": [
+        "Crash at random tick",
+        "Corrupt snapshot",
+        "Event gap",
+        "Long outage",
+        "T-REPLAY"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E3-T1",
+      "phase": "P4",
+      "epic": "P4-E3",
+      "title": "Implement world generation transaction",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T3",
+        "P3-E2-T2"
+      ],
+      "decisionGate": [
+        "D-MAP"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-MAP"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Every generation invariant passes",
+        "Invalid map is rejected",
+        "World is published only after generation"
+      ],
+      "tests": [
+        "Generation invariants",
+        "Repeatable seed",
+        "Capital spacing",
+        "Neutral garrison seed"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E3-T2",
+      "phase": "P4",
+      "epic": "P4-E3",
+      "title": "Implement rolling worlds and archive",
+      "priority": "P1",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E3-T1"
+      ],
+      "decisionGate": [
+        "D-CAPACITY"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-CAPACITY"
+      ],
+      "ownerRole": "server+devops",
+      "size": "M",
+      "acceptance": [
+        "No second open world",
+        "Underfilled world runs without AI backfill",
+        "Finished world cannot reopen"
+      ],
+      "tests": [
+        "Scheduler",
+        "Window close",
+        "Archive",
+        "World-list state"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P4-E3-T3",
+      "phase": "P4",
+      "epic": "P4-E3",
+      "title": "Hold G4 runtime/persistence gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E1-T5",
+        "P4-E2-T3",
+        "P4-E3-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "G4 evidence is attached",
+        "No P0/P1 runtime or data-loss defect"
+      ],
+      "tests": [
+        "G4 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E1-T1",
+      "phase": "P5",
+      "epic": "P5-E1",
+      "title": "Implement economy",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E3-T3"
+      ],
+      "decisionGate": [
+        "D-PD",
+        "D-TBD-ECON"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-PD",
+        "D-TBD-ECON"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Five resources never negative",
+        "Production/upkeep use config",
+        "Storage cap applies",
+        "Shortage penalties are deterministic",
+        "No hidden modifier"
+      ],
+      "tests": [
+        "T-ECON 25 cases",
+        "Rounding/remainder",
+        "Overflow",
+        "Shortage",
+        "Non-negative property test"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E1-T2",
+      "phase": "P5",
+      "epic": "P5-E1",
+      "title": "Implement build and training queues",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1"
+      ],
+      "decisionGate": [
+        "D-TBD-QUEUE"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-QUEUE"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "One running build and one running training per faction",
+        "A province has at most one active build",
+        "Cancel refund matches config",
+        "Completion applies once"
+      ],
+      "tests": [
+        "T-QUEUE 20 cases",
+        "Restart",
+        "Capture",
+        "Cap change",
+        "Duplicate completion"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E1-T3",
+      "phase": "P5",
+      "epic": "P5-E1",
+      "title": "Implement research, eras, and doctrine",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1"
+      ],
+      "decisionGate": [
+        "D-TBD-RESEARCH",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-RESEARCH",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Era gate cannot be bypassed",
+        "Research applies once",
+        "Doctrine is national and peace-only",
+        "All costs come from config"
+      ],
+      "tests": [
+        "T-TIME era boundaries",
+        "Research gate",
+        "Doctrine",
+        "Effect application",
+        "No duplicate effect"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E2-T1",
+      "phase": "P5",
+      "epic": "P5-E2",
+      "title": "Implement province, capital, refugee, elimination, and respawn",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1"
+      ],
+      "decisionGate": [
+        "D-PD",
+        "D-TBD-CAPITAL"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-PD",
+        "D-TBD-CAPITAL"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Province has one controller",
+        "Capital flag only on player-owned provinces",
+        "AI/rebel capture relocates or eliminates without gaining capital benefits",
+        "Respawn follows refugee, neutral/AI, spectator"
+      ],
+      "tests": [
+        "T-CAPITAL 15",
+        "T-PLAYER 20",
+        "Capital capture",
+        "Last-province loss",
+        "Respawn placement",
+        "Protection"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E2-T2",
+      "phase": "P5",
+      "epic": "P5-E2",
+      "title": "Implement military and march",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1"
+      ],
+      "decisionGate": [
+        "D-TBD-MOVE",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-MOVE",
+        "D-PD"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Army is in exactly one state/place",
+        "No PvP arrival outside war",
+        "Recall at arrival is too late",
+        "Split/merge conserves counts",
+        "Arrival order is time, priority, army ID, seq"
+      ],
+      "tests": [
+        "T-MOVE 25",
+        "T-PLAYER",
+        "Simultaneous arrivals",
+        "Recall",
+        "Retreat",
+        "Target changes"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E2-T3",
+      "phase": "P5",
+      "epic": "P5-E2",
+      "title": "Implement combat",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E2-T2"
+      ],
+      "decisionGate": [
+        "D-TIE",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Exact powers use unrounded values",
+        "Tie follows approved rule",
+        "Losses are integer and within committed counts",
+        "Battle report lists every factor",
+        "No hidden modifier"
+      ],
+      "tests": [
+        "T-COMBAT 30",
+        "Tie",
+        "Rounding",
+        "Counters",
+        "Cap",
+        "Capture",
+        "Fatigue",
+        "Offline +15 percent",
+        "T-FUZZ"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E2-T4",
+      "phase": "P5",
+      "epic": "P5-E2",
+      "title": "Implement abilities",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E2-T2",
+        "P5-E2-T3"
+      ],
+      "decisionGate": [
+        "D-TBD-MOVE",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-MOVE",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "M",
+      "acceptance": [
+        "Ability unavailable in peace/cooldown/wrong era",
+        "Costs deduct once",
+        "Effects apply once",
+        "Cooldowns persist through respawn and clear at season end"
+      ],
+      "tests": [
+        "T-ABILITY",
+        "Era/war gates",
+        "Cooldown",
+        "Cost",
+        "Damage",
+        "No duplicate effect"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E3-T1",
+      "phase": "P5",
+      "epic": "P5-E3",
+      "title": "Implement support and rebellion",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1"
+      ],
+      "decisionGate": [
+        "D-TBD-SUPPORT",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-SUPPORT",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Support starts at 60",
+        "Support never affects combat",
+        "One rebellion per faction",
+        "Spawn below 15 only",
+        "Grace blocks spawn",
+        "Rebel capture follows province rules"
+      ],
+      "tests": [
+        "T-SUPPORT 20",
+        "Threshold 14/15",
+        "Grace",
+        "Active group",
+        "Rebel last-province capture",
+        "AI defeat",
+        "Respawn reset"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E3-T2",
+      "phase": "P5",
+      "epic": "P5-E3",
+      "title": "Implement AI warlords",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1",
+        "P5-E2-T1",
+        "P5-E2-T2",
+        "P5-E2-T3"
+      ],
+      "decisionGate": [
+        "D-TBD-AI",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-AI",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "AI never attacks players in peace",
+        "AI does not attack protected/refugee players",
+        "AI decisions are deterministic",
+        "AI state is private",
+        "Abandoned player faction keeps kind=player and gains AI state"
+      ],
+      "tests": [
+        "T-AI 15",
+        "War/peace",
+        "Protection",
+        "Era scaling",
+        "Elimination",
+        "Audit replay skip",
+        "Abandonment return"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E3-T3",
+      "phase": "P5",
+      "epic": "P5-E3",
+      "title": "Implement season end, awards, and recap",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T3",
+        "P5-E2-T3",
+        "P5-E3-T1",
+        "P5-E3-T2"
+      ],
+      "decisionGate": [
+        "D-TBD-SCORE",
+        "D-PD",
+        "D-PASS-PROGRESS"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-TBD-SCORE",
+        "D-PD",
+        "D-PASS-PROGRESS"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Season never ends early",
+        "Awards are deterministic",
+        "Title requires player-controlled and linked at freeze",
+        "Final snapshot exists",
+        "No duplicate award",
+        "Finished world is read-only"
+      ],
+      "tests": [
+        "T-SEASON 15",
+        "Freeze",
+        "Late arrival",
+        "Award tie",
+        "Ineligible AI/guest",
+        "Duplicate freeze",
+        "Recap"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P5-E3-T4",
+      "phase": "P5",
+      "epic": "P5-E3",
+      "title": "Run full-season bot and hold G5",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E1-T1",
+        "P5-E1-T2",
+        "P5-E1-T3",
+        "P5-E2-T1",
+        "P5-E2-T2",
+        "P5-E2-T3",
+        "P5-E2-T4",
+        "P5-E3-T1",
+        "P5-E3-T2",
+        "P5-E3-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G4"
+      ],
+      "ownerRole": "qa+server",
+      "size": "L",
+      "acceptance": [
+        "Full season completes",
+        "No invariant violation",
+        "Deterministic replay hash matches",
+        "G5 evidence attached"
+      ],
+      "tests": [
+        "Bot season",
+        "T-FUZZ 10k+ runs",
+        "T-REPLAY",
+        "G5 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P6-E1-T1",
+      "phase": "P6",
+      "epic": "P6-E1",
+      "title": "Implement trade",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4"
+      ],
+      "decisionGate": [
+        "D-TBD-TRADE",
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-TBD-TRADE",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Escrow is all-or-nothing",
+        "5 trades/500 gold per faction per world day",
+        "Reset at world-day boundary",
+        "Tax follows config",
+        "War freezes existing offers",
+        "Overflow rejects"
+      ],
+      "tests": [
+        "T-TRADE 20",
+        "Escrow",
+        "Tax",
+        "Ally tax-free",
+        "Limits",
+        "War freeze",
+        "Elimination",
+        "Expiry"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P6-E1-T2",
+      "phase": "P6",
+      "epic": "P6-E1",
+      "title": "Implement alliances",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4"
+      ],
+      "decisionGate": [
+        "D-PD"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-PD"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Max three factions",
+        "One active leader",
+        "One active membership",
+        "War blocks changes",
+        "Leave applies -5 and 24h cooldowns",
+        "Eliminated members remain but cannot lead",
+        "Abandoned players leave"
+      ],
+      "tests": [
+        "T-ALLY 15",
+        "Max 3",
+        "War lock",
+        "Leader transfer",
+        "Kick/leave",
+        "Ex-ally attack lock",
+        "Shared vision"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P6-E1-T3",
+      "phase": "P6",
+      "epic": "P6-E1",
+      "title": "Hold G6 social/economy gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P6-E1-T1",
+        "P6-E1-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G5"
+      ],
+      "ownerRole": "tech-lead",
+      "size": "S",
+      "acceptance": [
+        "G6 evidence is attached",
+        "No P0/P1 escrow or war-lock defect"
+      ],
+      "tests": [
+        "G6 checklist",
+        "StateView ally visibility"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P7-E1-T1",
+      "phase": "P7",
+      "epic": "P7-E1",
+      "title": "Implement pass progression and missions",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4"
+      ],
+      "decisionGate": [
+        "D-TBD-PASS",
+        "D-PASS-PROGRESS"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-TBD-PASS",
+        "D-PASS-PROGRESS"
+      ],
+      "ownerRole": "server+design",
+      "size": "L",
+      "acceptance": [
+        "Pass is account-wide",
+        "Progress is per pass period unless D-PASS-PROGRESS says otherwise",
+        "Mid-season purchase makes earned premium rewards claimable",
+        "No level buying",
+        "No power"
+      ],
+      "tests": [
+        "Pass unit/integration",
+        "XP",
+        "Mission",
+        "Retroactive claim",
+        "Duplicate claim",
+        "Expiry auto-claim",
+        "No gameplay effect"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P7-E1-T2",
+      "phase": "P7",
+      "epic": "P7-E1",
+      "title": "Implement shop, cosmetics, and equip",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4"
+      ],
+      "decisionGate": [
+        "D-TBD-SHOP"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-TBD-SHOP"
+      ],
+      "ownerRole": "server+design",
+      "size": "M",
+      "acceptance": [
+        "Only identity cosmetics",
+        "Entitlement permanent unless revoked",
+        "Equip checks ownership",
+        "Cosmetic never changes stats",
+        "Web can display but not buy"
+      ],
+      "tests": [
+        "Shop/cosmetic",
+        "Equip/unequip",
+        "Refund",
+        "Slot uniqueness",
+        "No-pay-to-win audit"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P7-E1-T3",
+      "phase": "P7",
+      "epic": "P7-E1",
+      "title": "Implement RevenueCat webhook and entitlements",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P7-E1-T1",
+        "P7-E1-T2"
+      ],
+      "decisionGate": [
+        "D-STORES"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-STORES"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Forged/duplicate/out-of-order events handled",
+        "Provider event applied once",
+        "No client receipt trust",
+        "Account-wide entitlement",
+        "Refund revokes"
+      ],
+      "tests": [
+        "T-RC webhook matrix",
+        "Duplicate",
+        "Forged",
+        "Out-of-order",
+        "Refund",
+        "Unmapped user"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P7-E1-T4",
+      "phase": "P7",
+      "epic": "P7-E1",
+      "title": "Implement restore, refund, and revocation",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P7-E1-T3"
+      ],
+      "decisionGate": [
+        "D-STORES"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-STORES"
+      ],
+      "ownerRole": "server",
+      "size": "M",
+      "acceptance": [
+        "Restore grants only missing entitlements",
+        "Client customerInfo is not authority",
+        "Refund removes cosmetic and active pass access",
+        "Audit recorded"
+      ],
+      "tests": [
+        "Restore",
+        "Refund",
+        "Chargeback",
+        "Duplicate restore",
+        "No double grant"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P7-E1-T5",
+      "phase": "P7",
+      "epic": "P7-E1",
+      "title": "Implement web read-only APIs and hold G7",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P7-E1-T1",
+        "P7-E1-T2",
+        "P7-E1-T3",
+        "P7-E1-T4"
+      ],
+      "decisionGate": [
+        "D-STORES"
+      ],
+      "blockedBy": [
+        "G5",
+        "D-STORES"
+      ],
+      "ownerRole": "server+client",
+      "size": "M",
+      "acceptance": [
+        "Web can browse and claim/equip but has no purchase path",
+        "Mobile is the only IAP path",
+        "G7 evidence attached"
+      ],
+      "tests": [
+        "API contract",
+        "Guest gate",
+        "No checkout",
+        "G7 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E1-T1",
+      "phase": "P8",
+      "epic": "P8-E1",
+      "title": "Build client bootstrap, auth, and API",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E2-T3",
+        "P4-E1-T5"
+      ],
+      "decisionGate": [
+        "D-PLATFORM"
+      ],
+      "blockedBy": [
+        "G3",
+        "G4",
+        "D-PLATFORM"
+      ],
+      "ownerRole": "client",
+      "size": "L",
+      "acceptance": [
+        "Guest can boot, restore session, and reach the world list",
+        "No service-role key",
+        "Errors are actionable"
+      ],
+      "tests": [
+        "Component",
+        "E2E boot",
+        "Token refresh",
+        "Version mismatch"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E1-T2",
+      "phase": "P8",
+      "epic": "P8-E1",
+      "title": "Build design system and assets",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T1"
+      ],
+      "decisionGate": [
+        "D-NAMING"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-NAMING"
+      ],
+      "ownerRole": "design+client",
+      "size": "M",
+      "acceptance": [
+        "No more than 16 base colors per screen",
+        "Shape/pattern supports color",
+        "All user strings externalized",
+        "No user-uploaded images"
+      ],
+      "tests": [
+        "Visual",
+        "Contrast",
+        "Colorblind review",
+        "String extraction"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E1-T3",
+      "phase": "P8",
+      "epic": "P8-E1",
+      "title": "Build Phaser map renderer",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P2-E1-T3",
+        "P8-E1-T1"
+      ],
+      "decisionGate": [
+        "D-MAP"
+      ],
+      "blockedBy": [
+        "G2",
+        "D-MAP"
+      ],
+      "ownerRole": "client+design",
+      "size": "L",
+      "acceptance": [
+        "Map loads within 5 seconds on a good connection",
+        "390px fit is usable",
+        "Province hit-testing matches mask",
+        "No physics engine"
+      ],
+      "tests": [
+        "Visual",
+        "Hit-test",
+        "Resize",
+        "Frame budget",
+        "390px screenshot"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E2-T1",
+      "phase": "P8",
+      "epic": "P8-E2",
+      "title": "Build HUD and screens",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T1",
+        "P8-E1-T2",
+        "P8-E1-T3"
+      ],
+      "decisionGate": [
+        "D-TBD-NOTIFY"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-TBD-NOTIFY"
+      ],
+      "ownerRole": "client+design",
+      "size": "L",
+      "acceptance": [
+        "Every screen in 02 section 15.2 exists",
+        "Support/resources/clock always visible",
+        "One modal layer",
+        "Destructive actions confirm",
+        "Enemy counts are bands"
+      ],
+      "tests": [
+        "E2E",
+        "Visual regression",
+        "390px",
+        "No hidden exact counts"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E2-T2",
+      "phase": "P8",
+      "epic": "P8-E2",
+      "title": "Build onboarding and tutorial",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T1",
+        "P8-E2-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "client+design",
+      "size": "M",
+      "acceptance": [
+        "New guest can complete first capture in 5-10 minutes",
+        "80 percent within 15 minutes in playtest",
+        "Link prompt appears after first session",
+        "No email"
+      ],
+      "tests": [
+        "E2E first-capture",
+        "Usability playtest",
+        "Link prompt",
+        "Guest warning"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E2-T3",
+      "phase": "P8",
+      "epic": "P8-E2",
+      "title": "Build command client and reconnect",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T1",
+        "P8-E2-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "client",
+      "size": "L",
+      "acceptance": [
+        "Client never treats battle/trade/purchase/capture as final before ack",
+        "Reconnect replaces store",
+        "Stale version refreshes",
+        "Offline is read-only"
+      ],
+      "tests": [
+        "E2E network drop",
+        "Duplicate click",
+        "Stale state",
+        "Offline screen"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E2-T4",
+      "phase": "P8",
+      "epic": "P8-E2",
+      "title": "Build responsive, accessibility, and keyboard support",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T2",
+        "P8-E2-T1"
+      ],
+      "decisionGate": [
+        "D-PLATFORM"
+      ],
+      "blockedBy": [
+        "G3",
+        "D-PLATFORM"
+      ],
+      "ownerRole": "client+design",
+      "size": "M",
+      "acceptance": [
+        "Core actions are touch-only possible",
+        "Keyboard parity",
+        "Focus visible",
+        "No clipped safe areas",
+        "Accessibility checklist passes"
+      ],
+      "tests": [
+        "Playwright 390px/1280px",
+        "axe",
+        "Keyboard",
+        "Notched-phone viewport"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P8-E2-T5",
+      "phase": "P8",
+      "epic": "P8-E2",
+      "title": "Hold G8 client gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E1-T3",
+        "P8-E2-T1",
+        "P8-E2-T2",
+        "P8-E2-T3",
+        "P8-E2-T4"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G3"
+      ],
+      "ownerRole": "tech-lead+design",
+      "size": "S",
+      "acceptance": [
+        "G8 evidence attached",
+        "No P0/P1 client defect"
+      ],
+      "tests": [
+        "G8 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P9-E1-T1",
+      "phase": "P9",
+      "epic": "P9-E1",
+      "title": "Create Capacitor shell",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E2-T5"
+      ],
+      "decisionGate": [
+        "D-PLATFORM"
+      ],
+      "blockedBy": [
+        "G8",
+        "D-PLATFORM"
+      ],
+      "ownerRole": "mobile",
+      "size": "M",
+      "acceptance": [
+        "Both apps install and boot",
+        "Safe areas respected",
+        "No cleartext",
+        "No secrets in bundle"
+      ],
+      "tests": [
+        "Device smoke",
+        "Safe-area screenshots",
+        "Bundle secret scan"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P9-E1-T2",
+      "phase": "P9",
+      "epic": "P9-E1",
+      "title": "Implement native social login and secure storage",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E1-T4",
+        "P9-E1-T1"
+      ],
+      "decisionGate": [
+        "D-PLUGINS"
+      ],
+      "blockedBy": [
+        "G8",
+        "D-PLUGINS"
+      ],
+      "ownerRole": "mobile+server",
+      "size": "L",
+      "acceptance": [
+        "Native sign-in links/creates the correct account",
+        "Tokens survive restart",
+        "Logout clears",
+        "No email path"
+      ],
+      "tests": [
+        "Device matrix",
+        "Cancel/error",
+        "Token refresh",
+        "Secure-storage inspection"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P9-E1-T3",
+      "phase": "P9",
+      "epic": "P9-E1",
+      "title": "Implement RevenueCat mobile IAP",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P7-E1-T5",
+        "P9-E1-T1"
+      ],
+      "decisionGate": [
+        "D-STORES"
+      ],
+      "blockedBy": [
+        "G7",
+        "G8",
+        "D-STORES"
+      ],
+      "ownerRole": "mobile+server",
+      "size": "L",
+      "acceptance": [
+        "Sandbox purchase grants account-wide entitlement",
+        "Restore works",
+        "Refund revokes",
+        "Guest purchase blocked",
+        "Web sees entitlement"
+      ],
+      "tests": [
+        "iOS/Android sandbox",
+        "Purchase",
+        "Restore",
+        "Refund",
+        "Duplicate",
+        "Offline"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P9-E2-T1",
+      "phase": "P9",
+      "epic": "P9-E2",
+      "title": "Prepare store compliance, assets, signing, and CI",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P9-E1-T2",
+        "P9-E1-T3"
+      ],
+      "decisionGate": [
+        "D-LEGAL",
+        "D-STORES",
+        "D-PLATFORM"
+      ],
+      "blockedBy": [
+        "G7",
+        "G8",
+        "D-LEGAL",
+        "D-STORES",
+        "D-PLATFORM"
+      ],
+      "ownerRole": "mobile+business",
+      "size": "L",
+      "acceptance": [
+        "Both store submissions are complete",
+        "IAP declared",
+        "No prohibited external checkout",
+        "Privacy labels match data"
+      ],
+      "tests": [
+        "Submission checklist",
+        "TestFlight/Play internal",
+        "Store preflight"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P9-E2-T2",
+      "phase": "P9",
+      "epic": "P9-E2",
+      "title": "Hold G9 mobile gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P9-E1-T1",
+        "P9-E1-T2",
+        "P9-E1-T3",
+        "P9-E2-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G7",
+        "G8"
+      ],
+      "ownerRole": "tech-lead+mobile",
+      "size": "S",
+      "acceptance": [
+        "G9 evidence attached",
+        "Both builds pass internal testing",
+        "No P0/P1 mobile defect"
+      ],
+      "tests": [
+        "G9 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P10-E1-T1",
+      "phase": "P10",
+      "epic": "P10-E1",
+      "title": "Implement admin auth and hosting",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P3-E2-T3",
+        "P4-E3-T3"
+      ],
+      "decisionGate": [
+        "D-ADMIN"
+      ],
+      "blockedBy": [
+        "G3",
+        "G4",
+        "D-ADMIN"
+      ],
+      "ownerRole": "server+security",
+      "size": "M",
+      "acceptance": [
+        "Non-admin rejected before handlers",
+        "No shared player session",
+        "Admin host is separate from game API"
+      ],
+      "tests": [
+        "Authz matrix",
+        "Role tampering",
+        "Allowlist removal"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P10-E1-T2",
+      "phase": "P10",
+      "epic": "P10-E1",
+      "title": "Implement admin API",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P10-E1-T1"
+      ],
+      "decisionGate": [
+        "D-ADMIN"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-ADMIN"
+      ],
+      "ownerRole": "server",
+      "size": "L",
+      "acceptance": [
+        "Every state-changing action writes admin_audit with reason",
+        "No raw SQL",
+        "Live-world actions use a supported command seam",
+        "Dangerous actions confirm"
+      ],
+      "tests": [
+        "Admin integration",
+        "Audit",
+        "Pause/resume",
+        "Force finish",
+        "Grant",
+        "No-SQL-console"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P10-E1-T3",
+      "phase": "P10",
+      "epic": "P10-E1",
+      "title": "Implement moderation and admin UI",
+      "priority": "P1",
+      "status": "blocked",
+      "dependsOn": [
+        "P10-E1-T1",
+        "P10-E1-T2"
+      ],
+      "decisionGate": [
+        "D-ADMIN",
+        "D-NAMING"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-ADMIN",
+        "D-NAMING"
+      ],
+      "ownerRole": "server+client",
+      "size": "M",
+      "acceptance": [
+        "Names/emblems can be reported and actioned",
+        "reviewed_by/reviewed_at set together",
+        "No public report data",
+        "No chat surface"
+      ],
+      "tests": [
+        "Moderation flow",
+        "Report states",
+        "Rename",
+        "Audit",
+        "UI E2E"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P10-E1-T4",
+      "phase": "P10",
+      "epic": "P10-E1",
+      "title": "Hold G10 admin gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P10-E1-T1",
+        "P10-E1-T2",
+        "P10-E1-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G4"
+      ],
+      "ownerRole": "tech-lead+security",
+      "size": "S",
+      "acceptance": [
+        "G10 evidence attached",
+        "No P0/P1 privilege defect"
+      ],
+      "tests": [
+        "G10 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E1-T1",
+      "phase": "P11",
+      "epic": "P11-E1",
+      "title": "Build Docker, Compose, Caddy, and cloudflared",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P4-E3-T3"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-INFRA"
+      ],
+      "ownerRole": "devops",
+      "size": "M",
+      "acceptance": [
+        "App reachable only through tunnel",
+        "No public 80/443",
+        "Graceful stop",
+        "Previous two images retained"
+      ],
+      "tests": [
+        "Compose smoke",
+        "Port scan",
+        "Graceful shutdown",
+        "Image digest check"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E1-T2",
+      "phase": "P11",
+      "epic": "P11-E1",
+      "title": "Configure Cloudflare DNS, WAF, Pages, Tunnel, and R2",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T1"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-INFRA"
+      ],
+      "ownerRole": "devops",
+      "size": "M",
+      "acceptance": [
+        "Web/admin/game hostnames resolve",
+        "WAF and rate limits active",
+        "Tunnel-only origin",
+        "R2 private"
+      ],
+      "tests": [
+        "Edge checks",
+        "WAF rule test",
+        "Tunnel failover",
+        "R2 access policy"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E1-T3",
+      "phase": "P11",
+      "epic": "P11-E1",
+      "title": "Build deploy, migration, and rollback pipeline",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T1",
+        "P11-E1-T2"
+      ],
+      "decisionGate": [
+        "D-INFRA"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-INFRA"
+      ],
+      "ownerRole": "devops",
+      "size": "M",
+      "acceptance": [
+        "Deploy is repeatable",
+        "Migrations run before app",
+        "Failed healthcheck rolls back",
+        "Previous image retained"
+      ],
+      "tests": [
+        "Staging deploy",
+        "Failed migration",
+        "Failed healthcheck",
+        "Rollback"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E1-T4",
+      "phase": "P11",
+      "epic": "P11-E1",
+      "title": "Configure Supabase Pro, backups, restore, and archive",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T3"
+      ],
+      "decisionGate": [
+        "D-INFRA",
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-INFRA",
+        "D-RLS"
+      ],
+      "ownerRole": "devops+data",
+      "size": "L",
+      "acceptance": [
+        "Restore drill succeeds",
+        "Event archive runs before prune",
+        "Backup encryption",
+        "No production data in staging"
+      ],
+      "tests": [
+        "Restore drill",
+        "Archive/restore",
+        "Retention",
+        "RPO/RTO tabletop"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E2-T1",
+      "phase": "P11",
+      "epic": "P11-E2",
+      "title": "Configure Sentry, pino, uptime, and metrics",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T3"
+      ],
+      "decisionGate": [
+        "D-METRICS"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-METRICS"
+      ],
+      "ownerRole": "devops+server",
+      "size": "M",
+      "acceptance": [
+        "Incident can be traced alert to log to world/account",
+        "No provider payloads/tokens/email",
+        "No CloudWatch/Grafana",
+        "Native crash triage documented"
+      ],
+      "tests": [
+        "Incident trace",
+        "Scrub fixture",
+        "Cron miss",
+        "Log rotation"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E2-T2",
+      "phase": "P11",
+      "epic": "P11-E2",
+      "title": "Harden security and write runbooks",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T4",
+        "P11-E2-T1"
+      ],
+      "decisionGate": [
+        "D-RLS",
+        "D-LEGAL"
+      ],
+      "blockedBy": [
+        "G4",
+        "D-RLS",
+        "D-LEGAL"
+      ],
+      "ownerRole": "security+devops",
+      "size": "L",
+      "acceptance": [
+        "Authz/rate-limit matrix passes",
+        "No secrets in bundles/logs",
+        "Runbooks cover seven required incidents",
+        "No direct DB console"
+      ],
+      "tests": [
+        "Security checklist",
+        "Authz matrix",
+        "Secret scan",
+        "Tabletop"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P11-E2-T3",
+      "phase": "P11",
+      "epic": "P11-E2",
+      "title": "Hold G11 ops gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E1-T4",
+        "P11-E2-T2"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G4"
+      ],
+      "ownerRole": "tech-lead+devops",
+      "size": "S",
+      "acceptance": [
+        "G11 evidence attached",
+        "No P0/P1 operational defect"
+      ],
+      "tests": [
+        "G11 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T1",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Audit test coverage",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4",
+        "P6-E1-T3",
+        "P7-E1-T5",
+        "P8-E2-T5",
+        "P9-E2-T2",
+        "P10-E1-T4",
+        "P11-E2-T3"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G5",
+        "G6",
+        "G7",
+        "G8",
+        "G9",
+        "G10",
+        "G11"
+      ],
+      "ownerRole": "qa+tech-lead",
+      "size": "M",
+      "acceptance": [
+        "T-TIME through T-FUZZ meet minimums",
+        "Every FR has evidence",
+        "Missing tests added"
+      ],
+      "tests": [
+        "Coverage report",
+        "Traceability audit"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T2",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Run k6 load test",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E2-T3"
+      ],
+      "decisionGate": [
+        "D-CAPACITY"
+      ],
+      "blockedBy": [
+        "G11",
+        "D-CAPACITY"
+      ],
+      "ownerRole": "qa+devops",
+      "size": "L",
+      "acceptance": [
+        "3-5 worlds meet tick/broadcast budgets on target EC2",
+        "Intent round-trip under 200ms under normal load",
+        "No cross-world leak"
+      ],
+      "tests": [
+        "k6 report",
+        "Soak",
+        "Reconnect storm",
+        "Capacity note"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T3",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Run 30-day bot season and recovery drills",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P5-E3-T4",
+        "P11-E1-T4"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G5",
+        "G11"
+      ],
+      "ownerRole": "qa+server",
+      "size": "L",
+      "acceptance": [
+        "Season completes",
+        "State hash matches",
+        "Restore succeeds",
+        "No duplicate resources/units/purchases",
+        "Awards exactly once"
+      ],
+      "tests": [
+        "Bot",
+        "Crash matrix",
+        "Restore drill",
+        "T-REPLAY"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T4",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Run device, browser, and accessibility matrix",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P8-E2-T5",
+        "P9-E2-T2"
+      ],
+      "decisionGate": [
+        "D-PLATFORM"
+      ],
+      "blockedBy": [
+        "G8",
+        "G9",
+        "D-PLATFORM"
+      ],
+      "ownerRole": "qa+design",
+      "size": "M",
+      "acceptance": [
+        "Matrix passes",
+        "No clipped controls",
+        "Core actions touch-only",
+        "Keyboard parity",
+        "Accessibility checklist passes"
+      ],
+      "tests": [
+        "Device matrix",
+        "Playwright",
+        "axe",
+        "Manual review"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T5",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Run security review",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P11-E2-T3"
+      ],
+      "decisionGate": [
+        "D-LEGAL",
+        "D-RLS"
+      ],
+      "blockedBy": [
+        "G11",
+        "D-LEGAL",
+        "D-RLS"
+      ],
+      "ownerRole": "security",
+      "size": "L",
+      "acceptance": [
+        "No open P0/P1 security defect",
+        "No client-trusted value",
+        "No state leak",
+        "No secret exposure"
+      ],
+      "tests": [
+        "Security checklist",
+        "Authz matrix",
+        "Secret scan",
+        "Webhook forgery",
+        "State-leak serialization"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T6",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Submit to app stores",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P9-E2-T2"
+      ],
+      "decisionGate": [
+        "D-LEGAL",
+        "D-STORES"
+      ],
+      "blockedBy": [
+        "G9",
+        "D-LEGAL",
+        "D-STORES"
+      ],
+      "ownerRole": "mobile+business",
+      "size": "M",
+      "acceptance": [
+        "Both apps submitted and approved",
+        "IAP products approved",
+        "No external checkout link",
+        "Privacy labels accurate"
+      ],
+      "tests": [
+        "Store checklist",
+        "Review response log"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T7",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Audit launch acceptance criteria",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P12-E1-T1",
+        "P12-E1-T2",
+        "P12-E1-T3",
+        "P12-E1-T4",
+        "P12-E1-T5",
+        "P12-E1-T6"
+      ],
+      "decisionGate": [
+        "D-LEGAL",
+        "D-DEFERRAL"
+      ],
+      "blockedBy": [
+        "G11",
+        "G12",
+        "D-LEGAL",
+        "D-DEFERRAL"
+      ],
+      "ownerRole": "tech-lead+product",
+      "size": "M",
+      "acceptance": [
+        "Every launch criterion has evidence or approved exception",
+        "No unapproved scope addition",
+        "No P0/P1 defect"
+      ],
+      "tests": [
+        "Launch audit",
+        "Legal sign-off",
+        "Metrics review"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P12-E1-T8",
+      "phase": "P12",
+      "epic": "P12-E1",
+      "title": "Hold G12 launch gate",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P12-E1-T7"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G11"
+      ],
+      "ownerRole": "tech-lead+product",
+      "size": "S",
+      "acceptance": [
+        "G12 evidence attached",
+        "Go/no-go signed",
+        "Rollback and incident contacts ready"
+      ],
+      "tests": [
+        "G12 checklist"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P13-E1-T1",
+      "phase": "P13",
+      "epic": "P13-E1",
+      "title": "Launch production",
+      "priority": "P0",
+      "status": "blocked",
+      "dependsOn": [
+        "P12-E1-T8"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G12"
+      ],
+      "ownerRole": "devops+product",
+      "size": "M",
+      "acceptance": [
+        "Live world accepts players",
+        "Purchases reconcile",
+        "No P0 incident in first 24 hours"
+      ],
+      "tests": [
+        "Launch checklist",
+        "Smoke",
+        "Payment sandbox-to-live reconciliation"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "P13-E1-T2",
+      "phase": "P13",
+      "epic": "P13-E1",
+      "title": "Run hypercare and retrospective",
+      "priority": "P1",
+      "status": "blocked",
+      "dependsOn": [
+        "P13-E1-T1"
+      ],
+      "decisionGate": [],
+      "blockedBy": [
+        "G12"
+      ],
+      "ownerRole": "product+tech-lead",
+      "size": "M",
+      "acceptance": [
+        "Hypercare report exists",
+        "P0/P1 incidents have owners",
+        "Metrics reviewed",
+        "Next-season changes prioritized"
+      ],
+      "tests": [
+        "Daily health review",
+        "Incident log",
+        "Retrospective"
+      ],
+      "evidence": []
+    }
+  ]
+}
