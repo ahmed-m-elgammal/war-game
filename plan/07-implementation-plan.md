@@ -4,7 +4,8 @@
 **Date:** 2026-10-23  
 **Depends on:** `01-requirements.md`, `02-game-design.md`, `03-gameplay-rules.md`, `04-technology-decisions.md`, `05-architecture.md`, `06-data-model.md`, `plan/schemas/domain.ts`, `plan/schemas/game.schema.sql`, `specs/09-v1-design-lock.md`  
 **Machine-readable register:** [`tasks.json`](tasks.json)  
-**Scope:** dependency-ordered phases, epics, tasks, subtasks, priorities, acceptance criteria, tests, decision gates, and completion criteria for v1.  \n**Current state:** planning only; 100 tasks are registered and no implementation task has started.
+**Scope:** dependency-ordered phases, epics, tasks, subtasks, priorities, acceptance criteria, tests, decision gates, and completion criteria for v1.  
+**Current state:** Phase 1 started; repository initialized and workspace skeleton created (P1-E1-T1 and P1-E1-T2 done).
 
 ---
 
