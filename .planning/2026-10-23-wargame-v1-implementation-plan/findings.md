@@ -136,6 +136,9 @@ Produce a complete, dependency-ordered v1 implementation plan and a persistent t
 - Modular domain implementation in `packages/shared/src/domain/`: 10 submodules strictly <= 350 LOC cap limit (max 205 LOC).
 - Domain parity verification (`scripts/validate-domain-parity.js`): 100% of symbols (181) and AST interface properties verified against `plan/schemas/domain.ts`.
 - CI quality pipeline: `validate:domain` step added to `.github/workflows/ci.yml` and root `package.json`.
+- Game-rules primitives (`P2-E1-T4`) verified 2026-10-24: 83 tests across 7 files; full suite 181 tests; `typecheck`, `lint`, `format:check`, `build`, `check:rules`, `validate:domain`, `validate:tasks`, and `config:check` pass.
+- Purity gate negative probe: a temporary game-rules file importing `node:fs/promises` and calling `Date.now()`/`Math.random()` was rejected with three violations, then deleted.
+- Dependency reconciliation: `P2-E1-T2` remains `in_progress` for approved seed values; `P2-E1-T4` consumes injected schedules/rates and does not consume those seeds.
 
 ## Resources
 

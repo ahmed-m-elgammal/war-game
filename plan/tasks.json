@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-10-24",
   "statusValues": [
     "planned",
     "ready",
@@ -1376,7 +1376,7 @@
       "epic": "P2-E1",
       "title": "Build game-rules primitives",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P2-E1-T1",
         "P2-E1-T2"
@@ -1399,7 +1399,15 @@
         "Replay hash",
         "Dependency-boundary lint"
       ],
-      "evidence": []
+      "evidence": [
+        "Implemented pure time, PRNG, clock, event-order, ID-allocator, and fixed-point math modules under packages/game-rules/src; runtime imports are limited to relative modules and @wargame/shared.",
+        "PRNG uses FNV-1a seed derivation plus Mulberry32 state-in/state-out over shared RngState; golden-sequence and rejection-sampled integer tests lock determinism.",
+        "Clock derives day, UTC phase, era, and season freeze from injected WorldTimingConfig; tests cover the 1-30 day clamp, half-open 18h/6h boundaries, era days, and season freeze.",
+        "Event comparators and the per-world ID allocator are pure; fixed-point helpers cover production, upkeep, largest-remainder apportionment, and weighted score aggregation with caller-supplied rates and scale.",
+        "96 game-rules Vitest cases across 8 files pass; the full suite is 194 tests. typecheck, lint, format:check, build, check:rules, validate:domain, validate:tasks, and config:check pass.",
+        "scripts/check-code-rules.js now rejects non-shared runtime imports and Math.random/Date.now/new Date/host globals in game-rules; a temporary node:fs/Date.now/Math.random probe failed as expected and was removed.",
+        "Dependency reconciliation: P2-E1-T2 remains in_progress for approved seed values; P2-E1-T4 accepts schedules and rates through caller arguments and does not consume those seeds."
+      ]
     },
     {
       "id": "P2-E2-T1",

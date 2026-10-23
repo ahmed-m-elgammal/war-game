@@ -447,10 +447,11 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Validation hardening (2026-10-23):** malformed centroid, anchor, and name inputs now return structured issues instead of throwing; the water mask colour is rejected for provinces; art issue paths use array indices; duplicate adjacency entries no longer cascade into repeated asymmetric errors.
 
 ##### P2-E1-T4 — Build the game-rules primitives
-- **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1-T1, P2-E1-T2 · **Decision gate:** D-PD
+- **Priority:** P0 · **Status:** done · **Depends:** P2-E1-T1, P2-E1-T2 · **Decision gate:** D-PD
 - **Subtasks:** seeded PRNG; clock/phase/era; integer/remainder math; event ordering; invariant helpers; deterministic ID allocator.
 - **Acceptance:** pure package imports no Node, DB, network, React, or browser code; same inputs produce the same output.
 - **Tests:** property tests; replay hash; dependency-boundary lint.
+- **Validation (2026-10-24):** `time`, `prng`, `clock`, `event-order`, `id-allocator`, and `math` implemented under `packages/game-rules/src`; 96 game-rules tests across 8 files and 194 root tests pass. `scripts/check-code-rules.js` now enforces the game-rules import boundary and rejects host-clock, random, Node, and browser globals. Dependency reconciliation: `P2-E1-T2` remains `in_progress` for approved seed values; T4 accepts schedules and rates through caller arguments and does not consume those seeds.
 
 #### Epic P2-E2 — Database and conformance
 

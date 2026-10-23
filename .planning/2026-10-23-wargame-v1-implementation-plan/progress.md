@@ -109,10 +109,18 @@
   - 50 map-data Vitest cases cover the required connectivity, spawn, mask hit-test, and map-hash checks; the fixture is synthetic and never exported as Vardania data.
   - Validation hardening (2026-10-23): malformed point/name inputs return structured issues instead of throwing, `#000000` is rejected as the water mask colour, art issue paths use array indices, duplicate adjacency entries no longer cascade, and constants documentation is top-of-file only. Seven regression tests cover these defects.
   - Production map content and completion remain blocked by `D-MAP`; resource-mix and neutral/AI-buffer guarantees from `09` §6.2 wait for approved per-world generation rules.
+- P2-E1-T4 (Build game-rules primitives) completed 2026-10-24:
+  - Added pure `time`, `prng`, `clock`, `event-order`, `id-allocator`, and `math` modules under `packages/game-rules/src`, with top-of-file contracts and no host clock, random, Node, DB, network, React, or browser dependencies.
+  - PRNG uses FNV-1a seed derivation plus Mulberry32 state-in/state-out; `RngState.state` stays an opaque unsigned-decimal string. Golden-sequence and rejection-sampled integer tests lock the contract.
+  - Clock derives day, phase, era, and season freeze from injected `WorldTimingConfig`; timestamp parsing requires an explicit UTC offset, intervals are half-open, the day index clamps to 1-30, and calendar era never advances from tech state.
+  - Rules primitives cover world-event and battle-arrival ordering, monotonic `WorldIdCounters` allocation, fixed-point production/upkeep, largest-remainder apportionment, and weighted score aggregation. Rates, weights, and scale are caller-supplied; no balance values were added.
+  - 83 game-rules Vitest cases across 7 files pass; the full suite is 181 tests. Root `typecheck`, `lint`, `format:check`, `test`, `build`, `check:rules`, `validate:domain`, `validate:tasks`, and `config:check` pass.
+  - `scripts/check-code-rules.js` now enforces the game-rules purity boundary; a temporary `node:fs/promises` + `Date.now()` + `Math.random()` probe failed with three expected violations and was deleted.
+  - Dependency reconciliation: `P2-E1-T2` remains `in_progress` for approved seed values; T4 consumes injected schedules/rates and does not need those seeds.
 
 ### Next Actions
 
 1. Resolve `D-MAP` (final map values, pan/zoom, spawn geometry) before adding production Vardania content.
 2. Complete `P2-E1-T3` once `D-MAP` closes: add approved map content, validate the resource mix and neutral/AI spawn buffer, and record the production map hash.
 3. Complete `P2-E1-T2` after `P0-E1-T3` resolves the `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`: add approved seed documents and any missing `GameConfig` sections.
-4. Proceed to `P2-E1-T4` (Build game-rules primitives: PRNG, clock, math).
+4. `P2-E1-T4` is complete; start the next implementation task only after its gates and dependencies are approved.
