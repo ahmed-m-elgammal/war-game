@@ -6,8 +6,6 @@
     "composite": true,
     "jsx": "react-jsx"
   },
-  "references": [
-    { "path": "../shared" }
-  ],
+  "references": [{ "path": "../shared" }],
   "include": ["src/**/*"]
 }

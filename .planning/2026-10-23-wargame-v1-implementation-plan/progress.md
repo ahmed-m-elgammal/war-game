@@ -44,7 +44,11 @@
 | Package skeleton check | 10 projects created with tsconfig and entrypoints | `apps/*` (3) and `packages/*` (6) + `infra/` scaffolded | Pass |
 | SQL runtime execution | Migration runs on PostgreSQL | Not run; no `psql`/Docker runtime | Not run |
 | Target Node 24.22.1 | Pinned in container image | `infra/docker/Dockerfile` pins `node:24.22.1-bookworm-slim` | Pass |
-| TypeScript 7.0.2 compile | `tsc -b` passes across all 10 projects | Compiles cleanly with zero errors or warnings | Pass |
+| TypeScript compile | `tsc -b` passes across all 10 projects | Compiles cleanly with zero errors (TypeScript 6.0.3) | Pass |
+| ESLint 9 Flat Config | `pnpm run lint` | ESLint 9 + typescript-eslint passes across all code | Pass |
+| Prettier formatting | `pnpm run format:check` | All matched files use Prettier style | Pass |
+| Vitest unit suite | `pnpm run test` | 1 test in `packages/game-rules` passed in 284ms | Pass |
+| Task register validator | `pnpm run validate:tasks` | 100 tasks, 13 gates, and 32 decisions validated with 0 errors | Pass |
 
 ### Errors
 
@@ -52,6 +56,7 @@
 |---|---|
 | `npx typescript@7.0.2 tsc` treated `tsc` as a source file | Used `npx --yes --package typescript@7.0.2 tsc` |
 | `pnpm --version` refused because of global `packageManager` in `C:\Users\A-Dev\package.json` | Pinned `"packageManager": "pnpm@12.15.0"` in local workspace `package.json`; Corepack activated pnpm 12.15.0 |
+| `typescript-eslint` rejected TS 7.0 (peer dep `<6.1.0`) | Approved fallback to `typescript@6.0.3` via `ADR-001` conforming to `plan/04` D-037 |
 | No `psql` installed | SQL remains parser-checked; runtime validation is a P2 gate |
 | Local Node 22.16.0 vs pinned 24.22.1 | Container image and CI pin 24.22.1; local Node 22 runs pnpm/TS cleanly |
 
@@ -60,10 +65,12 @@
 - 100 tasks, 13 gates, 32 decisions, and 14 phases.
 - P1-E1-T1 (Initialize repository and workspace) is complete.
 - P1-E1-T2 (Create package skeleton) is complete.
-- P1-E1-T3 (Pin toolchain and run TypeScript compatibility gate) is complete: `typescript@7.0.2` installed, `tsc -b` passes with zero errors, `infra/docker/Dockerfile` pinned.
+- P1-E1-T3 (Pin toolchain and run TypeScript compatibility gate) is complete with `ADR-001` recorded.
+- P1-E1-T4 (Add lint, format, test, and task-register validation) is complete: ESLint 9, Prettier, Vitest 5.0.5, and `validate:tasks` all passing cleanly.
 - `AGENTS.md` updated with Section 5 architecture diagrams, package dependency flow, and theme expansion rules.
 
 ### Next Actions
 
-1. Proceed to `P1-E1-T4` (Add lint, format, test, and task-register validation: ESLint 9, Prettier, Vitest 5.0.5, validate:tasks script).
-2. Proceed to `P1-E2-T1` (Build CI and security pipeline).
+1. Proceed to `P1-E2-T1` (Build CI and security pipeline: GitHub Actions workflow for PR checks).
+2. Proceed to `P1-E2-T2` (Set up local dev and environment schema: .env.example, Zod env validation).
+3. Proceed to `P1-E2-T3` (Hold G1 foundation gate).

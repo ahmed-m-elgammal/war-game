@@ -37,29 +37,29 @@ For codebase questions, follow the global graphify rule: use `graphify query`, `
 
 Load a skill with the `skill` tool at the start of the task. Use the **most specific** matching skill; do not load the whole catalog.
 
-| Work | Load first | Notes |
-|---|---|---|
-| HUD, menus, sheets, safe areas, focus, screen flow | `game-ui-ux` | The primary UI skill for this game. |
-| Phaser scene, config, loader, map renderer | `phaser-core` | Phaser 3.90.0 only. |
-| Touch, keyboard, input mapping, buffering | `input-systems` | Touch + mouse/keyboard. **No gamepad.** |
-| Map pan/zoom, fit-to-width, camera bounds | `camera-systems` | No minimap or +/- controls. |
-| Screen shake, hit-stop, impact feedback | `game-feel` | Respect reduced motion. |
-| Low FPS, stutter, draw calls, memory | `performance-optimization` | Measure with the profiler before changing code. |
-| Playwright game tests, visual/gameplay checks | `qa-game` | Use the Playwright MCP for browser execution. |
-| Debugging a failing game test | `game-qa` | Reference skill; use `qa-game` to add tests. |
-| React page or marketing/landing UI | `frontend-design` | Do not use generic landing-page patterns for the in-game HUD. |
-| Test-first feature or bug fix | `tdd` | Red → green → refactor; each bug gets a regression test. |
-| Multi-step task or long investigation | `planning-with-files` | Keep `task_plan.md`, `findings.md`, `progress.md` current. |
-| Supabase client, Auth, Realtime, Storage, Edge Functions | `supabase` | Use the Supabase MCP/CLI where appropriate. |
-| Postgres schema, migrations, RLS, indexes, queries | `supabase-postgres-best-practices` | **Always load before changing the database.** |
-| Cloudflare Pages, Tunnel, R2, DNS/WAF | `cloudflare` | Use `wrangler` for Pages/CLI work. |
-| Cloudflare Workers/Functions (only if approved) | `workers-best-practices` | v1 does not require a Worker by default. |
-| Code review before merging | `clean-code-guard` | Review changed production code, not test code. |
-| Review a branch/PR against standards + spec | `code-review` | Use for a real review request, not a quick edit. |
-| Bug diagnosis | `diagnosing-bugs` | Reproduce before fixing. |
-| Docs/README/API reference changes | `docs-guard` | Verify every command, flag, and example. |
-| iOS dependency/project changes | `xcode-project-setup` | SPM/Capacitor 8. |
-| App Store submission/review | `app-store-review` | Only for submission readiness. |
+| Work                                                     | Load first                         | Notes                                                         |
+| -------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| HUD, menus, sheets, safe areas, focus, screen flow       | `game-ui-ux`                       | The primary UI skill for this game.                           |
+| Phaser scene, config, loader, map renderer               | `phaser-core`                      | Phaser 3.90.0 only.                                           |
+| Touch, keyboard, input mapping, buffering                | `input-systems`                    | Touch + mouse/keyboard. **No gamepad.**                       |
+| Map pan/zoom, fit-to-width, camera bounds                | `camera-systems`                   | No minimap or +/- controls.                                   |
+| Screen shake, hit-stop, impact feedback                  | `game-feel`                        | Respect reduced motion.                                       |
+| Low FPS, stutter, draw calls, memory                     | `performance-optimization`         | Measure with the profiler before changing code.               |
+| Playwright game tests, visual/gameplay checks            | `qa-game`                          | Use the Playwright MCP for browser execution.                 |
+| Debugging a failing game test                            | `game-qa`                          | Reference skill; use `qa-game` to add tests.                  |
+| React page or marketing/landing UI                       | `frontend-design`                  | Do not use generic landing-page patterns for the in-game HUD. |
+| Test-first feature or bug fix                            | `tdd`                              | Red → green → refactor; each bug gets a regression test.      |
+| Multi-step task or long investigation                    | `planning-with-files`              | Keep `task_plan.md`, `findings.md`, `progress.md` current.    |
+| Supabase client, Auth, Realtime, Storage, Edge Functions | `supabase`                         | Use the Supabase MCP/CLI where appropriate.                   |
+| Postgres schema, migrations, RLS, indexes, queries       | `supabase-postgres-best-practices` | **Always load before changing the database.**                 |
+| Cloudflare Pages, Tunnel, R2, DNS/WAF                    | `cloudflare`                       | Use `wrangler` for Pages/CLI work.                            |
+| Cloudflare Workers/Functions (only if approved)          | `workers-best-practices`           | v1 does not require a Worker by default.                      |
+| Code review before merging                               | `clean-code-guard`                 | Review changed production code, not test code.                |
+| Review a branch/PR against standards + spec              | `code-review`                      | Use for a real review request, not a quick edit.              |
+| Bug diagnosis                                            | `diagnosing-bugs`                  | Reproduce before fixing.                                      |
+| Docs/README/API reference changes                        | `docs-guard`                       | Verify every command, flag, and example.                      |
+| iOS dependency/project changes                           | `xcode-project-setup`              | SPM/Capacitor 8.                                              |
+| App Store submission/review                              | `app-store-review`                 | Only for submission readiness.                                |
 
 Rules for skills:
 

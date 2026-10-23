@@ -1110,14 +1110,12 @@
       "epic": "P1-E1",
       "title": "Add lint, format, test, and task-register validation",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T3"
       ],
       "decisionGate": [],
-      "blockedBy": [
-        "G0"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "M",
       "acceptance": [
@@ -1129,7 +1127,13 @@
         "Validator self-test with duplicate/missing IDs",
         "Lint/format smoke"
       ],
-      "evidence": []
+      "evidence": [
+        "ESLint 9 flat config configured and passing across all files",
+        "Prettier 3.9 configured and passing with format:check",
+        "Vitest 5.0.5 configured with sample baseline test passing",
+        "scripts/validate-tasks.js implemented and passing 100 tasks, 13 gates, and 32 decisions",
+        "Recorded ADR-001 for TypeScript 6.0.3 toolchain compatibility fallback"
+      ]
     },
     {
       "id": "P1-E2-T1",

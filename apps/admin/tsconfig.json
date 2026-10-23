@@ -6,9 +6,6 @@
     "composite": true,
     "jsx": "react-jsx"
   },
-  "references": [
-    { "path": "../../packages/shared" },
-    { "path": "../../packages/ui" }
-  ],
+  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/ui" }],
   "include": ["src/**/*"]
 }

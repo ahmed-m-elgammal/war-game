@@ -391,7 +391,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Tests:** CI matrix; lockfile check; Docker build.
 
 ##### P1-E1-T4 — Add lint, format, test, and task-register validation
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1-T3 · **Decision gate:** none
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1-T3 · **Decision gate:** none
 - **Subtasks:** ESLint 9 flat config; Prettier; Vitest 5.0.5; Playwright 1.64.1; JSON schema for `tasks.json`; Markdown link/table checker.
 - **Acceptance:** a sample failing test blocks CI; task IDs and dependencies validate; docs checks run.
 - **Tests:** self-test the validator with duplicate/missing IDs.
