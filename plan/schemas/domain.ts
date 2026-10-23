@@ -1,9 +1,12 @@
 /**
- * WARGAME v1 domain model — planning artifact.
+ * WARGAME v1 domain model — planning artifact & canonical reference.
  *
- * This file is the type-level target for `packages/shared/src/domain` once the
- * implementation starts. It is deliberately dependency-free: no Drizzle,
- * Colyseus, React, or Supabase imports.
+ * This file serves as the canonical domain specification. The production implementation
+ * is modularized into `packages/shared/src/domain/` across 10 submodules (each strictly <= 350 LOC)
+ * to comply with the workspace file size cap rules.
+ *
+ * 100% symbol parity, interface property structures, and protocol alignment
+ * are continuously enforced via `scripts/validate-domain-parity.js` and CI.
  *
  * Authority:
  * - `specs/09-v1-design-lock.md` is the v1 lock.
@@ -502,7 +505,9 @@ export interface World {
   worldId: WorldId;
   name: string;
   mapId: string;
+  mapHash: string;
   configVersion: string;
+  configHash: string;
   status: WorldStatus;
   /** Nullable overlay; it does not replace the public lifecycle status. */
   operationalState: OperationalState | null;
@@ -539,6 +544,9 @@ export interface WorldSnapshotMeta {
   stateHash: string;
   lastEventSeq: number;
   configVersion: string;
+  configHash: string;
+  mapId: string;
+  mapHash: string;
   leaseVersion: number;
   createdAt: Timestamp;
 }
@@ -948,6 +956,9 @@ export interface WorldState {
   schemaVersion: number;
   worldId: WorldId;
   configVersion: string;
+  configHash: string;
+  mapId: string;
+  mapHash: string;
   clock: WorldClock;
   rng: RngState;
 

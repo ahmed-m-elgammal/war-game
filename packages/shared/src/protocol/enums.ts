@@ -49,6 +49,7 @@ export type FactionState = (typeof FACTION_STATES)[number];
 export const REBELLION_STATES = ["none", "active", "grace"] as const;
 export const rebellionStateSchema = z.enum(REBELLION_STATES);
 export type RebellionState = (typeof REBELLION_STATES)[number];
+export type RebellionFactionState = RebellionState;
 
 export const REBELLION_GROUP_STATES = ["spawned", "holding", "defeated"] as const;
 export const rebellionGroupStateSchema = z.enum(REBELLION_GROUP_STATES);
@@ -190,6 +191,18 @@ export type MissionState = (typeof MISSION_STATES)[number];
 export const SHOP_ITEM_KINDS = ["pass", "cosmetic"] as const;
 export const shopItemKindSchema = z.enum(SHOP_ITEM_KINDS);
 export type ShopItemKind = (typeof SHOP_ITEM_KINDS)[number];
+
+export const REVENUECAT_STATUSES = ["received", "processed", "ignored", "failed"] as const;
+export const revenueCatStatusSchema = z.enum(REVENUECAT_STATUSES);
+export type RevenueCatStatus = (typeof REVENUECAT_STATUSES)[number];
+
+export const REPORT_STATES = ["open", "reviewed", "actioned", "dismissed"] as const;
+export const reportStateSchema = z.enum(REPORT_STATES);
+export type ReportState = (typeof REPORT_STATES)[number];
+
+export const REPORT_TARGET_TYPES = ["account", "faction"] as const;
+export const reportTargetTypeSchema = z.enum(REPORT_TARGET_TYPES);
+export type ReportTargetType = (typeof REPORT_TARGET_TYPES)[number];
 
 export const WORLD_EVENT_TYPES = [
   "join",

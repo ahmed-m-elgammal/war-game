@@ -37,8 +37,6 @@ export const unitCountsSchema = z
   })
   .strict();
 
-export type UnitCounts = z.infer<typeof unitCountsSchema>;
-
 export const joinWorldPayloadSchema = z
   .object({
     emblemId: z.string().min(1).max(64),

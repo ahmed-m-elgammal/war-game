@@ -1264,11 +1264,14 @@
         "packages/shared/src/protocol/ created with version.ts, ids.ts, enums.ts, errors.ts, envelopes.ts, commands.ts, and dtos.ts",
         "Protocol version explicitly declared and enforced via PROTOCOL_VERSION ('1.0.0')",
         "Branded nominal IDs implemented for AccountId, WorldId, ProvinceId, CommandId, FactionId, ArmyId, etc., with zero-cost fast casting helpers",
-        "Strict unknown-field rejection (.strict()) enforced across all 24 command payloads, DTOs, and network envelopes",
+        "Strict unknown-field rejection (.strict()) enforced across all 25 command payloads, DTOs, and network envelopes",
         "AppError class, formatZodError helper, and standard errorEnvelopeSchema implemented with comprehensive domain error codes",
         "O(1) command schema registry COMMAND_PAYLOAD_SCHEMAS and parseCommandPayload helper implemented",
         "DTO schemas and StateView projections implemented matching domain.ts and conforming to approved decisions D-PASS-PROGRESS, D-SEASON-END, and D-CONFIG-PIN",
-        "23 unit tests passing in Vitest covering roundtrips, unknown-field rejection, AppError serialization, and error codes"
+        "Modular domain implementation completed in packages/shared/src/domain/ with 10 submodules strictly <= 350 LOC (max 205 LOC)",
+        "Automated domain parity & deep interface property validator created in scripts/validate-domain-parity.js checking 100% of symbols (181) and AST interface properties",
+        "Domain parity & data integrity step added to root package.json ('validate:domain') and GitHub Actions CI (.github/workflows/ci.yml)",
+        "Unit tests passing in Vitest covering roundtrips, unknown-field rejection, StateView asymmetric projection, AppError serialization, and error codes"
       ]
     },
     {

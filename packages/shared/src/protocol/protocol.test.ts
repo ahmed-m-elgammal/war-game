@@ -38,7 +38,8 @@ import {
   createErrorResponse,
   worldSummaryDtoSchema,
   troopBandSchema,
-  publicRegionSchema
+  publicRegionSchema,
+  stateViewSchema
 } from "./index.js";
 
 describe("Protocol Version Contract", () => {
@@ -229,6 +230,42 @@ describe("DTOs and StateView Projections", () => {
       troopBand: { min: 1000, max: null }
     };
     expect(() => publicRegionSchema.parse(openBandRegion)).not.toThrow();
+  });
+
+  it("validates full asymmetric StateView fog-of-war projection", () => {
+    const validStateView = {
+      public: {
+        clock: {
+          day: 1,
+          hour: 12,
+          minute: 0,
+          tickNumber: 60,
+          seasonDay: 1,
+          warWindowActive: false,
+          isSeasonEnded: false,
+          lastTickTimestamp: new Date().toISOString()
+        },
+        version: 1,
+        factions: {},
+        regions: {},
+        armies: {},
+        alliances: {},
+        tradeOffers: {},
+        battleSummaries: {}
+      },
+      exactProvinces: {},
+      exactArmies: {},
+      ownFaction: null,
+      ownProvinceDetails: {},
+      battleReports: {}
+    };
+
+    expect(() => stateViewSchema.parse(validStateView)).not.toThrow();
+
+    // Rejects unknown fields to prevent accidental state leakage
+    expect(() =>
+      stateViewSchema.parse({ ...validStateView, leakedEnemyIntel: "garrison:500" })
+    ).toThrow(ZodError);
   });
 });
 

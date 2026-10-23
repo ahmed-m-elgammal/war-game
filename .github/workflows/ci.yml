@@ -36,6 +36,9 @@ jobs:
       - name: Validate task register integrity
         run: pnpm run validate:tasks
 
+      - name: Validate domain parity & data integrity
+        run: pnpm run validate:domain
+
       - name: Typecheck project references
         run: pnpm run typecheck
 

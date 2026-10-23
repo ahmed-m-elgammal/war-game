@@ -80,9 +80,14 @@
 - P2-E1-T1 (Build shared protocol package) is complete:
   - `packages/shared/src/protocol/` created: `version.ts`, `ids.ts`, `enums.ts`, `errors.ts`, `envelopes.ts`, `commands.ts`, `dtos.ts`.
   - Nominal branded IDs with zero-cost internal casting helpers (`toProvinceId`, etc.).
-  - Strict unknown-field rejection (`.strict()`) across all 24 command payloads, DTOs, and envelopes.
+  - Strict unknown-field rejection (`.strict()`) across all 25 command payloads, DTOs, and envelopes.
   - Production error handling: `AppError`, `formatZodError`, `createSuccessResponse`, `createErrorResponse`.
   - $O(1)$ command schema registry `COMMAND_PAYLOAD_SCHEMAS` and `parseCommandPayload`.
+  - Domain modularization completed in `packages/shared/src/domain/` across 10 submodules (`primitives.ts`, `account.ts`, `world.ts`, `faction.ts`, `map-military.ts`, `alliance-trade.ts`, `queues.ts`, `state.ts`, `config.ts`, `index.ts`), each strictly <= 350 LOC (max 205 LOC).
+  - StateView schema in `protocol/dtos.ts` aligned 100% with domain `StateView` asymmetric fog-of-war contract (§14.2 of `plan/06-data-model.md`).
+  - Automated domain parity & deep interface property validator created in `scripts/validate-domain-parity.js` verifying 100% of symbols (181) and AST interface properties.
+  - Added `"validate:domain"` to root `package.json` and step `Validate domain parity & data integrity` to `.github/workflows/ci.yml`.
+  - Unit tests in Vitest covering roundtrips, unknown-field rejection, StateView asymmetric projection, AppError serialization, and error codes.
 
 ### Next Actions
 

@@ -428,9 +428,9 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 
 ##### P2-E1-T1 — Build the shared protocol package
 - **Priority:** P0 · **Status:** done · **Depends:** G1 · **Decision gate:** D-PASS-PROGRESS, D-SEASON-END, D-CONFIG-PIN
-- **Subtasks:** branded IDs; command/event/error schemas; REST/WS envelopes; protocol version; DTOs; result/error codes.
-- **Acceptance:** `domain.ts` types are represented in runtime schemas; unknown fields are rejected; protocol version is explicit.
-- **Tests:** schema roundtrip; unknown-field rejection; error-code coverage.
+- **Subtasks:** branded IDs; command/event/error schemas; REST/WS envelopes; protocol version; DTOs; result/error codes; modular domain model; CI parity & data integrity validation.
+- **Acceptance:** `domain.ts` types are represented in runtime schemas; unknown fields are rejected; protocol version is explicit; domain model modularized into `packages/shared/src/domain/` (10 submodules <= 350 LOC) with 100% parity.
+- **Tests:** schema roundtrip; unknown-field rejection; error-code coverage; domain parity & data integrity.
 
 ##### P2-E1-T2 — Build the config package and schema
 - **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1-T1, P0 decisions · **Decision gate:** D-PD, D-TBD-*, D-MAP, D-WAR-TIME

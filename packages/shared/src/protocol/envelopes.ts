@@ -71,8 +71,6 @@ export const commandEnvelopeSchema = z
   })
   .strict();
 
-export type CommandEnvelope = z.infer<typeof commandEnvelopeSchema>;
-
 export const commandReceiptSchema = z
   .object({
     accountId: accountIdSchema,
@@ -86,8 +84,6 @@ export const commandReceiptSchema = z
     expiresAt: z.string().datetime()
   })
   .strict();
-
-export type CommandReceipt = z.infer<typeof commandReceiptSchema>;
 
 export const worldEventSchema = z
   .object({
@@ -106,5 +102,3 @@ export const worldEventSchema = z
     createdAt: z.string().datetime()
   })
   .strict();
-
-export type WorldEvent = z.infer<typeof worldEventSchema>;

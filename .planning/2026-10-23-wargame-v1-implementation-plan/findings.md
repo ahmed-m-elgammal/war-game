@@ -1,4 +1,4 @@
-﻿# Findings & Decisions
+# Findings & Decisions
 
 ## Objective
 
@@ -133,6 +133,9 @@ Produce a complete, dependency-ordered v1 implementation plan and a persistent t
 - SQL runtime execution: not run; no `psql`/Docker runtime available.
 - Target Node 24.22.1: not available locally; environment has Node 22.16.0. P1-E1-T3 is the compatibility gate.
 - `pnpm` is blocked by a global `packageManager` field in `C:\Users\A-Dev\package.json`; the workspace must pin its own package manager before use.
+- Modular domain implementation in `packages/shared/src/domain/`: 10 submodules strictly <= 350 LOC cap limit (max 205 LOC).
+- Domain parity verification (`scripts/validate-domain-parity.js`): 100% of symbols (181) and AST interface properties verified against `plan/schemas/domain.ts`.
+- CI quality pipeline: `validate:domain` step added to `.github/workflows/ci.yml` and root `package.json`.
 
 ## Resources
 
