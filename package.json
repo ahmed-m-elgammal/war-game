@@ -11,6 +11,7 @@
   "scripts": {
     "typecheck": "tsc -b",
     "lint": "eslint .",
+    "check:rules": "node scripts/check-code-rules.js",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "test": "vitest run",

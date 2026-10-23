@@ -399,7 +399,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 #### Epic P1-E2 — CI, security, and local environment
 
 ##### P1-E2-T1 — Build the CI and security pipeline
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1-T4 · **Decision gate:** D-INFRA
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1-T4 · **Decision gate:** D-INFRA
 - **Subtasks:** PR install/lint/typecheck/unit/build/Playwright smoke; dependency audit; secret scan; CodeQL or equivalent; artifact retention.
 - **Acceptance:** required checks block merge; no long-lived cloud keys in GitHub.
 - **Tests:** intentionally failing PR; secret-scan fixture.

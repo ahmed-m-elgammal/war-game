@@ -49,6 +49,8 @@
 | Prettier formatting | `pnpm run format:check` | All matched files use Prettier style | Pass |
 | Vitest unit suite | `pnpm run test` | 1 test in `packages/game-rules` passed in 284ms | Pass |
 | Task register validator | `pnpm run validate:tasks` | 100 tasks, 13 gates, and 32 decisions validated with 0 errors | Pass |
+| Architecture rules check | `pnpm run check:rules` | No God Files (≤350 LOC cap) & no hardcoded colors | Pass |
+| CI and security pipeline | GitHub Actions | `.github/workflows/ci.yml` runs full validation + Gitleaks | Pass |
 
 ### Errors
 
@@ -66,11 +68,10 @@
 - P1-E1-T1 (Initialize repository and workspace) is complete.
 - P1-E1-T2 (Create package skeleton) is complete.
 - P1-E1-T3 (Pin toolchain and run TypeScript compatibility gate) is complete with `ADR-001` recorded.
-- P1-E1-T4 (Add lint, format, test, and task-register validation) is complete: ESLint 9, Prettier, Vitest 5.0.5, and `validate:tasks` all passing cleanly.
-- `AGENTS.md` updated with Section 5 architecture diagrams, package dependency flow, and theme expansion rules.
+- P1-E1-T4 (Add lint, format, test, and task-register validation) is complete.
+- P1-E2-T1 (Build CI and security pipeline) is complete: `.github/workflows/ci.yml`, `check:rules` (350 LOC cap limit & color checking), and `AGENTS.md` rules added.
 
 ### Next Actions
 
-1. Proceed to `P1-E2-T1` (Build CI and security pipeline: GitHub Actions workflow for PR checks).
-2. Proceed to `P1-E2-T2` (Set up local dev and environment schema: .env.example, Zod env validation).
-3. Proceed to `P1-E2-T3` (Hold G1 foundation gate).
+1. Proceed to `P1-E2-T2` (Set up local dev and environment schema: .env.example, Zod env validation).
+2. Proceed to `P1-E2-T3` (Hold G1 foundation gate).

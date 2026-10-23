@@ -26,6 +26,8 @@ For codebase questions, follow the global graphify rule: use `graphify query`, `
 - **No hardcoded colors.** Use the design-token source of truth (§6).
 - **No hardcoded user-facing strings.** Use the i18n catalog (§7).
 - **No hardcoded gameplay numbers.** Approved values live in versioned config; the server pins the config version/hash per world.
+- **No God Files (350 LOC cap limit).** Every source file must stay at or below 350 lines of code. Split responsibilities into focused modules.
+- **Clean file documentation.** Do not scatter explanatory comments between code lines. Document file intent, architecture, and contracts at the top of the file.
 - **No secrets in the repo or client.** No `service_role`, RevenueCat secret, database URL, or private key in web/mobile code.
 - **No new dependency, service, or platform without approval.** Use the pinned stack in `plan/04`.
 - **Typecheck, lint, tests, and build must pass before “done.”** No exceptions, no `--no-verify`.
@@ -101,6 +103,9 @@ Rules for skills:
 - No raw `fetch` in components. Use the typed API client and shared protocol types; add endpoints to `/api/v1` and the shared contract, never ad hoc strings.
 - Use branded IDs (`AccountId`, `WorldId`, `ProvinceId`, `CommandId`); do not pass raw strings or numbers across boundaries.
 - No magic layout numbers. Spacing, radii, z-index, breakpoints, and motion durations come from tokens.
+- **Strict 350 LOC file cap:** No source file in `apps/` or `packages/` may exceed 350 lines of code. Split oversized files into smaller, single-responsibility submodules.
+- **Top-of-file documentation only:** Write architectural context and component/function contracts in a clear block at the top of the file. Keep code lines clean without interspersed comment clutter.
+- **Automated enforcement:** `pnpm check:rules` runs in CI to verify the 350 LOC cap and reject hardcoded colors outside `packages/ui`.
 
 ### 5.1 System runtime topology
 
@@ -374,4 +379,6 @@ A task is done only when all apply:
 - Web checkout, Stripe, paid power, loot boxes, randomized paid cosmetics, or paid pass levels.
 - Phaser Arcade Physics or client-side movement simulation.
 - A second state library, second renderer, or second source of design tokens.
+- Files exceeding 350 LOC (God files).
+- Comment noise interspersed between logic lines instead of header documentation.
 - Commit/push/deploy without explicit approval.

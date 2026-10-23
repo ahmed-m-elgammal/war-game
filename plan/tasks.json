@@ -1141,17 +1141,14 @@
       "epic": "P1-E2",
       "title": "Build CI and security pipeline",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T4"
       ],
       "decisionGate": [
         "D-INFRA"
       ],
-      "blockedBy": [
-        "G0",
-        "D-INFRA"
-      ],
+      "blockedBy": [],
       "ownerRole": "devops",
       "size": "M",
       "acceptance": [
@@ -1162,7 +1159,10 @@
         "Intentionally failing PR",
         "Secret-scan fixture"
       ],
-      "evidence": []
+      "evidence": [
+        ".github/workflows/ci.yml created running validate:tasks, typecheck, lint, check:rules (350 LOC cap + color check), format:check, test, build, and Gitleaks/pnpm audit",
+        "AGENTS.md updated with 350 LOC cap and top-of-file documentation rules"
+      ]
     },
     {
       "id": "P1-E2-T2",
