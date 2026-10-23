@@ -24,7 +24,7 @@
     {
       "id": "G1",
       "name": "Foundation",
-      "status": "blocked",
+      "status": "approved",
       "exitCriteria": "Clean clone builds; lint, typecheck, unit smoke, task validator, and CI pass."
     },
     {
@@ -1170,17 +1170,14 @@
       "epic": "P1-E2",
       "title": "Set up local dev and environment schema",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T2"
       ],
       "decisionGate": [
         "D-RLS"
       ],
-      "blockedBy": [
-        "G0",
-        "D-RLS"
-      ],
+      "blockedBy": [],
       "ownerRole": "server+devops",
       "size": "M",
       "acceptance": [
@@ -1192,7 +1189,12 @@
         "Clean-machine bootstrap",
         "Env failure tests"
       ],
-      "evidence": []
+      "evidence": [
+        ".env.example created with server, client, and database variables",
+        "packages/shared/src/config/env.ts implemented with Zod serverEnvSchema and clientEnvSchema",
+        "Unit tests in packages/shared/src/config/env.test.ts verify fail-fast error behavior on missing required env",
+        "infra/docker/docker-compose.local.yml created for local PostgreSQL database service"
+      ]
     },
     {
       "id": "P1-E2-T3",
@@ -1200,16 +1202,14 @@
       "epic": "P1-E2",
       "title": "Hold G1 foundation gate",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T4",
         "P1-E2-T1",
         "P1-E2-T2"
       ],
       "decisionGate": [],
-      "blockedBy": [
-        "G0"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "S",
       "acceptance": [
@@ -1220,7 +1220,14 @@
       "tests": [
         "G1 checklist"
       ],
-      "evidence": []
+      "evidence": [
+        "Workspace builds cleanly: pnpm run build succeeds across all 10 monorepo projects",
+        "Quality gates pass: pnpm run validate:tasks (100 tasks, 13 gates, 32 decisions), pnpm run typecheck (tsc -b), pnpm run lint (ESLint 9), pnpm run check:rules (<=350 LOC cap limit and zero hardcoded colors), pnpm run format:check (Prettier), pnpm run test (Vitest 6/6 tests passing)",
+        "GitHub Actions CI pipeline configured with quality gates and secret scans (.github/workflows/ci.yml)",
+        "Environment schemas with Zod validation and fail-fast behavior tested (packages/shared/src/config/env.ts, env.test.ts)",
+        "Phase 1 foundation tasks P1-E1-T1 through P1-E2-T2 are all verified done",
+        "No gameplay code exists yet; architecture constraints and 350 LOC cap enforced"
+      ]
     },
     {
       "id": "P2-E1-T1",

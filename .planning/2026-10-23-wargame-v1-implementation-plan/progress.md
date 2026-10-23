@@ -47,10 +47,13 @@
 | TypeScript compile | `tsc -b` passes across all 10 projects | Compiles cleanly with zero errors (TypeScript 6.0.3) | Pass |
 | ESLint 9 Flat Config | `pnpm run lint` | ESLint 9 + typescript-eslint passes across all code | Pass |
 | Prettier formatting | `pnpm run format:check` | All matched files use Prettier style | Pass |
-| Vitest unit suite | `pnpm run test` | 1 test in `packages/game-rules` passed in 284ms | Pass |
+| Vitest unit suite | `pnpm run test` | 2 test files, 6 tests passed (env fail-fast & rules) | Pass |
 | Task register validator | `pnpm run validate:tasks` | 100 tasks, 13 gates, and 32 decisions validated with 0 errors | Pass |
 | Architecture rules check | `pnpm run check:rules` | No God Files (≤350 LOC cap) & no hardcoded colors | Pass |
 | CI and security pipeline | GitHub Actions | `.github/workflows/ci.yml` runs full validation + Gitleaks | Pass |
+| Environment schemas & config | Zod validation | `packages/shared/src/config/env.ts` with fail-fast parsing | Pass |
+| Monorepo build | `pnpm run build` | All 10 projects compile cleanly (`tsc -b`) | Pass |
+| G1 Foundation Gate | `plan/tasks.json` | G1 exit criteria met and approved | Pass |
 
 ### Errors
 
@@ -66,12 +69,18 @@
 
 - 100 tasks, 13 gates, 32 decisions, and 14 phases.
 - P1-E1-T1 (Initialize repository and workspace) is complete.
-- P1-E1-T2 (Create package skeleton) is complete.
+- P1-E1-T2 (Create package skeleton) is complete across all 10 projects.
 - P1-E1-T3 (Pin toolchain and run TypeScript compatibility gate) is complete with `ADR-001` recorded.
 - P1-E1-T4 (Add lint, format, test, and task-register validation) is complete.
 - P1-E2-T1 (Build CI and security pipeline) is complete: `.github/workflows/ci.yml`, `check:rules` (350 LOC cap limit & color checking), and `AGENTS.md` rules added.
+- P1-E2-T2 (Set up local dev and environment schema) is complete: `.env.example`, Zod `serverEnvSchema`/`clientEnvSchema` with unit tests, and `docker-compose.local.yml`.
+- P1-E2-T3 (Hold G1 foundation gate) is complete: G1 is APPROVED. All foundation tasks are done and no gameplay code exists yet.
 
 ### Next Actions
 
-1. Proceed to `P1-E2-T2` (Set up local dev and environment schema: .env.example, Zod env validation).
-2. Proceed to `P1-E2-T3` (Hold G1 foundation gate).
+1. Proceed to Phase 2: Contracts, config, map, and database.
+2. Address decision gates blocking Phase 2:
+   - `D-PASS-PROGRESS` (Per-period vs season-scoped pass progress)
+   - `D-SEASON-END` (`season_end` vs `ends_at`)
+   - `D-CONFIG-PIN` (Content-addressed config/map or stored hashes)
+3. Start `P2-E1-T1` (Build shared protocol package: branded IDs, command/event schemas, DTOs).

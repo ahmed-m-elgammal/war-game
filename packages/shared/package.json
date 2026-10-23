@@ -9,5 +9,8 @@
     "build": "tsc -b",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
   }
 }

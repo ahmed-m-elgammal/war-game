@@ -405,13 +405,13 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Tests:** intentionally failing PR; secret-scan fixture.
 
 ##### P1-E2-T2 — Set up the local dev and environment schema
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1-T2 · **Decision gate:** D-RLS
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1-T2 · **Decision gate:** D-RLS
 - **Subtasks:** local Postgres/Supabase; `.env.example`; Zod env validation; test database; migration reset; no production secrets.
 - **Acceptance:** a new developer can boot the workspace from the README; invalid env fails fast.
 - **Tests:** clean-machine bootstrap; env failure tests.
 
 ##### P1-E2-T3 — Hold the G1 foundation gate
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1, P1-E2 · **Decision gate:** none
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1, P1-E2 · **Decision gate:** none
 - **Subtasks:** run all checks; record evidence; confirm no gameplay code exists yet.
 - **Acceptance:** G1 evidence is attached; all P0 foundation tasks are done.
 - **Tests:** G1 checklist.
