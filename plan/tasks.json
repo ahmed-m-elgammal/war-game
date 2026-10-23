@@ -438,40 +438,43 @@
       "id": "D-PASS-PROGRESS",
       "name": "Per-period vs season-scoped pass progress",
       "source": "PC-02",
-      "status": "open",
+      "status": "approved",
       "blocks": [
         "P0-E1-T5",
         "P2-E1-T1",
         "P5-E3-T3",
         "P7-E1-T1"
       ],
-      "recommendation": "Recommend per-period, matching 09 section 14.2."
+      "recommendation": "Approved 2026-10-23: Pass progress is per pass period (30 days) and account-wide, matching 09 section 14.2 and plan/06 schema.",
+      "approvedAt": "2026-10-23"
     },
     {
       "id": "D-SEASON-END",
       "name": "season_end vs ends_at",
       "source": "PC-03",
-      "status": "open",
+      "status": "approved",
       "blocks": [
         "P0-E1-T5",
         "P2-E1-T1",
         "P4-E1-T3",
         "P4-E2-T3"
       ],
-      "recommendation": "Recommend season_end as the single field."
+      "recommendation": "Approved 2026-10-23: season_end is the single canonical field across specs, contracts, and database schema, matching 06 and SQL.",
+      "approvedAt": "2026-10-23"
     },
     {
       "id": "D-CONFIG-PIN",
       "name": "Content-addressed config/map or stored hashes",
       "source": "PC-05",
-      "status": "open",
+      "status": "approved",
       "blocks": [
         "P0-E1-T5",
         "P2-E1-T1",
         "P2-E2-T1",
         "P4-E2-T1"
       ],
-      "recommendation": "Recommend content-addressed IDs plus stored hashes."
+      "recommendation": "Approved 2026-10-23: Content-addressed IDs plus stored SHA-256 hashes (config_hash, map_hash) pinned per world for deterministic simulation and replay.",
+      "approvedAt": "2026-10-23"
     },
     {
       "id": "D-CAPACITY",
@@ -1235,7 +1238,7 @@
       "epic": "P2-E1",
       "title": "Build shared protocol package",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E2-T3"
       ],
@@ -1244,12 +1247,7 @@
         "D-SEASON-END",
         "D-CONFIG-PIN"
       ],
-      "blockedBy": [
-        "G1",
-        "D-PASS-PROGRESS",
-        "D-SEASON-END",
-        "D-CONFIG-PIN"
-      ],
+      "blockedBy": [],
       "ownerRole": "server+client",
       "size": "L",
       "acceptance": [
@@ -1262,7 +1260,16 @@
         "Unknown-field rejection",
         "Error-code coverage"
       ],
-      "evidence": []
+      "evidence": [
+        "packages/shared/src/protocol/ created with version.ts, ids.ts, enums.ts, errors.ts, envelopes.ts, commands.ts, and dtos.ts",
+        "Protocol version explicitly declared and enforced via PROTOCOL_VERSION ('1.0.0')",
+        "Branded nominal IDs implemented for AccountId, WorldId, ProvinceId, CommandId, FactionId, ArmyId, etc., with zero-cost fast casting helpers",
+        "Strict unknown-field rejection (.strict()) enforced across all 24 command payloads, DTOs, and network envelopes",
+        "AppError class, formatZodError helper, and standard errorEnvelopeSchema implemented with comprehensive domain error codes",
+        "O(1) command schema registry COMMAND_PAYLOAD_SCHEMAS and parseCommandPayload helper implemented",
+        "DTO schemas and StateView projections implemented matching domain.ts and conforming to approved decisions D-PASS-PROGRESS, D-SEASON-END, and D-CONFIG-PIN",
+        "23 unit tests passing in Vitest covering roundtrips, unknown-field rejection, AppError serialization, and error codes"
+      ]
     },
     {
       "id": "P2-E1-T2",

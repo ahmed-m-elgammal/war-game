@@ -427,7 +427,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 #### Epic P2-E1 — Shared contracts, config, map, and rules primitives
 
 ##### P2-E1-T1 — Build the shared protocol package
-- **Priority:** P0 · **Status:** blocked · **Depends:** G1 · **Decision gate:** D-PASS-PROGRESS, D-SEASON-END, D-CONFIG-PIN
+- **Priority:** P0 · **Status:** done · **Depends:** G1 · **Decision gate:** D-PASS-PROGRESS, D-SEASON-END, D-CONFIG-PIN
 - **Subtasks:** branded IDs; command/event/error schemas; REST/WS envelopes; protocol version; DTOs; result/error codes.
 - **Acceptance:** `domain.ts` types are represented in runtime schemas; unknown fields are rejected; protocol version is explicit.
 - **Tests:** schema roundtrip; unknown-field rejection; error-code coverage.

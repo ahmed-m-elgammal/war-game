@@ -47,13 +47,14 @@
 | TypeScript compile | `tsc -b` passes across all 10 projects | Compiles cleanly with zero errors (TypeScript 6.0.3) | Pass |
 | ESLint 9 Flat Config | `pnpm run lint` | ESLint 9 + typescript-eslint passes across all code | Pass |
 | Prettier formatting | `pnpm run format:check` | All matched files use Prettier style | Pass |
-| Vitest unit suite | `pnpm run test` | 2 test files, 6 tests passed (env fail-fast & rules) | Pass |
+| Vitest unit suite | `pnpm run test` | 3 test files, 23 tests passed (protocol, env fail-fast & rules) | Pass |
 | Task register validator | `pnpm run validate:tasks` | 100 tasks, 13 gates, and 32 decisions validated with 0 errors | Pass |
-| Architecture rules check | `pnpm run check:rules` | No God Files (≤350 LOC cap) & no hardcoded colors | Pass |
+| Architecture rules check | `pnpm run check:rules` | No God Files (≤350 LOC cap) & no hardcoded colors (21 files checked) | Pass |
 | CI and security pipeline | GitHub Actions | `.github/workflows/ci.yml` runs full validation + Gitleaks | Pass |
 | Environment schemas & config | Zod validation | `packages/shared/src/config/env.ts` with fail-fast parsing | Pass |
 | Monorepo build | `pnpm run build` | All 10 projects compile cleanly (`tsc -b`) | Pass |
 | G1 Foundation Gate | `plan/tasks.json` | G1 exit criteria met and approved | Pass |
+| Shared Protocol Package | Zod schemas | `packages/shared/src/protocol/` (P2-E1-T1 complete) | Pass |
 
 ### Errors
 
@@ -75,12 +76,16 @@
 - P1-E2-T1 (Build CI and security pipeline) is complete: `.github/workflows/ci.yml`, `check:rules` (350 LOC cap limit & color checking), and `AGENTS.md` rules added.
 - P1-E2-T2 (Set up local dev and environment schema) is complete: `.env.example`, Zod `serverEnvSchema`/`clientEnvSchema` with unit tests, and `docker-compose.local.yml`.
 - P1-E2-T3 (Hold G1 foundation gate) is complete: G1 is APPROVED. All foundation tasks are done and no gameplay code exists yet.
+- Decision gates D-PASS-PROGRESS (PC-02), D-SEASON-END (PC-03), and D-CONFIG-PIN (PC-05) are approved and documented.
+- P2-E1-T1 (Build shared protocol package) is complete:
+  - `packages/shared/src/protocol/` created: `version.ts`, `ids.ts`, `enums.ts`, `errors.ts`, `envelopes.ts`, `commands.ts`, `dtos.ts`.
+  - Nominal branded IDs with zero-cost internal casting helpers (`toProvinceId`, etc.).
+  - Strict unknown-field rejection (`.strict()`) across all 24 command payloads, DTOs, and envelopes.
+  - Production error handling: `AppError`, `formatZodError`, `createSuccessResponse`, `createErrorResponse`.
+  - $O(1)$ command schema registry `COMMAND_PAYLOAD_SCHEMAS` and `parseCommandPayload`.
 
 ### Next Actions
 
-1. Proceed to Phase 2: Contracts, config, map, and database.
-2. Address decision gates blocking Phase 2:
-   - `D-PASS-PROGRESS` (Per-period vs season-scoped pass progress)
-   - `D-SEASON-END` (`season_end` vs `ends_at`)
-   - `D-CONFIG-PIN` (Content-addressed config/map or stored hashes)
-3. Start `P2-E1-T1` (Build shared protocol package: branded IDs, command/event schemas, DTOs).
+1. Proceed to `P2-E1-T2` (Build config package and schema: Zod `GameConfig`, balance constants, config validation, version/hash pinning).
+2. Proceed to `P2-E1-T3` (Build Vardania map-data package).
+3. Proceed to `P2-E1-T4` (Build game-rules primitives: PRNG, clock, math).

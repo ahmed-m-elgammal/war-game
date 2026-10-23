@@ -65,12 +65,17 @@ Phase 6 — Delivery
 | Record PC-01–PC-10 as proposals, not silent edits. | Respects approval rules. |
 | Exact-power tie: defender wins; attacker loses all; defender loses 50% (**DEFAULT**). | Product-owner approval 2026-10-23; avoids a mutual wipe while preserving the defense advantage. |
 | Monorepo skeleton initialized (P1-E1-T1 & P1-E1-T2). | Git repository pushed to GitHub, 10 projects linked with pnpm workspace. |
+| G1 Foundation Gate approved (P1 complete). | Lint, typecheck, rules check (350 LOC cap), format, test, build, and CI pipeline pass. |
+| D-PASS-PROGRESS approved (2026-10-23). | Pass progress is per pass period (30 days) and account-wide, matching 09 §14.2 and plan/06 schema. |
+| D-SEASON-END approved (2026-10-23). | `season_end` is the canonical single field across specs, contracts, and schema. |
+| D-CONFIG-PIN approved (2026-10-23). | Worlds pin SHA-256 hashes (`config_hash`, `map_hash`) alongside IDs for deterministic replay. |
+| P2-E1-T1 complete (2026-10-23). | Shared protocol package built with branded IDs, strict command schemas, DTOs, AppError, and test suite. |
 
 ## Errors Encountered
 
 | Error | Resolution |
 |---|---|
-| Local Node is 22.16.0, not the pinned Node 24.22.1. | Recorded as a P1 toolchain gate; no implementation depends on it yet. |
+| Local Node is 22.16.0, not the pinned Node 24.22.1. | Recorded as a P1 toolchain gate; container and CI pin 24.22.1; local Node 22 runs pnpm/TS cleanly. |
 | `pnpm` is blocked by a global `packageManager` field in `C:\Users\A-Dev\package.json`. | Resolved: pinned `"packageManager": "pnpm@12.15.0"` in local `package.json`. |
 | No `psql`/Docker runtime for SQL execution. | SQL was formatter/parser-checked only; runtime validation remains a P2 gate. |
 | `npx typescript@7.0.2 tsc` treated `tsc` as a file. | Use `npx --package typescript@7.0.2 tsc`. |

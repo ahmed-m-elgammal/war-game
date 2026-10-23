@@ -1260,7 +1260,7 @@ The pass is account-wide, rolling 30 days from purchase, and may cross a season 
 
 ### 12.3 Catch-up policy
 
-**PROPOSED:** On boot, fast-forward up to 30 minutes of missed simulation automatically. If more than 30 minutes are missed, pause the world, snapshot it, and require an admin decision to resume (with an `ends_at` extension) or finish.
+**PROPOSED:** On boot, fast-forward up to 30 minutes of missed simulation automatically. If more than 30 minutes are missed, pause the world, snapshot it, and require an admin decision to resume (with a `season_end` extension) or finish.
 
 Why:
 
@@ -1318,7 +1318,7 @@ A world is published only after the generation invariants in `03` §4.4 pass.
 
 - No production, upkeep, support, rebellion, marches, or AI while paused.
 - The war clock and season end do not advance.
-- On resume, extend `ends_at` by the paused duration.
+- On resume, extend `season_end` by the paused duration.
 - Admin must record a reason.
 - Pausing during war is allowed only for incident recovery; it must be announced.
 

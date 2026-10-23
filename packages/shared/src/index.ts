@@ -1,7 +1,9 @@
 /**
- * @file packages/shared/src/index.ts
- * @description Entrypoint for @wargame/shared protocol schemas, DTOs, and environment contracts.
+ * Shared Monorepo Package Root
+ *
+ * Exposes core protocol schemas, branded IDs, DTOs, network envelopes,
+ * and environment configuration contracts for server and client packages.
  */
 
-export const PROTOCOL_VERSION = "1.0.0";
+export * from "./protocol/index.js";
 export * from "./config/env.js";

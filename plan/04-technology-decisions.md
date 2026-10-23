@@ -537,7 +537,7 @@ Rules:
 - Every webhook event is idempotent by event ID.
 - Restore purchases calls a server endpoint that fetches the subscriber from RevenueCat’s REST API using a server-only secret; the client’s `customerInfo` is not authoritative.
 - Refund/revocation removes the entitlement and unequips the cosmetic if active.
-- The pass grants premium-track access while active; premium progress remains season-scoped.
+- The pass grants premium-track access while active; pass progress is per pass period (30 days) and account-wide, earned across any active world.
 - If a pass crosses a season boundary, the remaining days unlock the next season’s premium track.
 - No pay-to-win, no resource packs, no paid pass levels, no premium currency.
 
