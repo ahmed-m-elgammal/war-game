@@ -372,13 +372,13 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 #### Epic P1-E1 — Repository and toolchain
 
 ##### P1-E1-T1 — Initialize the repository and workspace
-- **Priority:** P0 · **Status:** blocked · **Depends:** G0 · **Decision gate:** none
+- **Priority:** P0 · **Status:** done · **Depends:** none · **Decision gate:** none
 - **Subtasks:** `git init`; branch protection; README; `.gitignore`; `.editorconfig`; license/notice decision.
 - **Acceptance:** clean clone has the documented layout; no secrets or generated build output are committed.
 - **Tests:** clean-clone smoke; secret scan.
 
 ##### P1-E1-T2 — Create the package skeleton
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1-T1 · **Decision gate:** none
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1-T1 · **Decision gate:** none
 - **Subtasks:** `apps/web`, `apps/admin`, `apps/server`; `packages/shared`, `game-rules`, `map-data`, `db`, `ui`, `test-bot`; `infra/`.
 - **Acceptance:** dependency direction in `05` §4.1 is enforced; packages build independently.
 - **Tests:** `pnpm -r build`; dependency-boundary lint.

@@ -1,4 +1,4 @@
-﻿# Task Plan: Wargame V1 Implementation Plan
+# Task Plan: Wargame V1 Implementation Plan
 
 ## Goal
 
@@ -64,13 +64,13 @@ Phase 6 — Delivery
 | Treat `09` as authoritative and `06` as canonical data model. | Prevents derived-doc drift. |
 | Record PC-01–PC-10 as proposals, not silent edits. | Respects approval rules. |
 | Exact-power tie: defender wins; attacker loses all; defender loses 50% (**DEFAULT**). | Product-owner approval 2026-10-23; avoids a mutual wipe while preserving the defense advantage. |
-| No implementation code, git repository, or deployment created. | Matches the user’s instruction. |
+| Monorepo skeleton initialized (P1-E1-T1 & P1-E1-T2). | Git repository pushed to GitHub, 10 projects linked with pnpm workspace. |
 
 ## Errors Encountered
 
 | Error | Resolution |
 |---|---|
 | Local Node is 22.16.0, not the pinned Node 24.22.1. | Recorded as a P1 toolchain gate; no implementation depends on it yet. |
-| `pnpm` is blocked by a global `packageManager` field in `C:\Users\A-Dev\package.json`. | Workspace must pin its own package manager in P1-E1-T3. |
+| `pnpm` is blocked by a global `packageManager` field in `C:\Users\A-Dev\package.json`. | Resolved: pinned `"packageManager": "pnpm@12.15.0"` in local `package.json`. |
 | No `psql`/Docker runtime for SQL execution. | SQL was formatter/parser-checked only; runtime validation remains a P2 gate. |
 | `npx typescript@7.0.2 tsc` treated `tsc` as a file. | Use `npx --package typescript@7.0.2 tsc`. |

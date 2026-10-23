@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./packages/game-rules" },
+    { "path": "./packages/map-data" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/db" },
+    { "path": "./packages/test-bot" },
+    { "path": "./apps/server" },
+    { "path": "./apps/web" },
+    { "path": "./apps/admin" }
+  ]
+}

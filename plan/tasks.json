@@ -1024,14 +1024,12 @@
       "epic": "P1-E1",
       "title": "Initialize repository and workspace",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P0-E3-T3"
       ],
       "decisionGate": [],
-      "blockedBy": [
-        "G0"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "S",
       "acceptance": [
@@ -1042,7 +1040,10 @@
         "Clean-clone smoke",
         "Secret scan"
       ],
-      "evidence": []
+      "evidence": [
+        "Git repository initialized on branch main and pushed to https://github.com/ahmed-m-elgammal/war-game.git",
+        "README.md, .gitignore, .editorconfig, and LICENSE created"
+      ]
     },
     {
       "id": "P1-E1-T2",
@@ -1050,14 +1051,12 @@
       "epic": "P1-E1",
       "title": "Create package skeleton",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T1"
       ],
       "decisionGate": [],
-      "blockedBy": [
-        "G0"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "M",
       "acceptance": [
@@ -1068,7 +1067,10 @@
         "pnpm -r build",
         "Dependency-boundary lint"
       ],
-      "evidence": []
+      "evidence": [
+        "Scaffolded apps/web, apps/server, apps/admin and 6 packages in packages/*",
+        "pnpm-workspace.yaml configured and pnpm install verified across all 10 projects"
+      ]
     },
     {
       "id": "P1-E1-T3",
