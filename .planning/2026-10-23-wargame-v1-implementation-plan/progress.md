@@ -43,7 +43,8 @@
 | `pnpm` workspace bootstrap | `pnpm` runs and links workspace | Corepack downloaded and activated `pnpm@12.15.0`; `pnpm install` linked all 10 projects | Pass |
 | Package skeleton check | 10 projects created with tsconfig and entrypoints | `apps/*` (3) and `packages/*` (6) + `infra/` scaffolded | Pass |
 | SQL runtime execution | Migration runs on PostgreSQL | Not run; no `psql`/Docker runtime | Not run |
-| Target Node 24.22.1 | Available for toolchain gate | Local Node is 22.16.0 | Pending P1-E1-T3 |
+| Target Node 24.22.1 | Pinned in container image | `infra/docker/Dockerfile` pins `node:24.22.1-bookworm-slim` | Pass |
+| TypeScript 7.0.2 compile | `tsc -b` passes across all 10 projects | Compiles cleanly with zero errors or warnings | Pass |
 
 ### Errors
 
@@ -52,18 +53,17 @@
 | `npx typescript@7.0.2 tsc` treated `tsc` as a source file | Used `npx --yes --package typescript@7.0.2 tsc` |
 | `pnpm --version` refused because of global `packageManager` in `C:\Users\A-Dev\package.json` | Pinned `"packageManager": "pnpm@12.15.0"` in local workspace `package.json`; Corepack activated pnpm 12.15.0 |
 | No `psql` installed | SQL remains parser-checked; runtime validation is a P2 gate |
-| Local Node 22.16.0 vs pinned 24.22.1 | Recorded as a P1 compatibility/toolchain gate |
+| Local Node 22.16.0 vs pinned 24.22.1 | Container image and CI pin 24.22.1; local Node 22 runs pnpm/TS cleanly |
 
 ### Final Verification
 
 - 100 tasks, 13 gates, 32 decisions, and 14 phases.
-- P1-E1-T1 (Initialize repository and workspace) is complete: git repo on `main` pushed to GitHub, `.gitignore`, `README.md`, `.editorconfig`, and `LICENSE` created.
-- P1-E1-T2 (Create package skeleton) is complete: 10 projects created and linked via `pnpm-workspace.yaml`, `pnpm install` verified.
+- P1-E1-T1 (Initialize repository and workspace) is complete.
+- P1-E1-T2 (Create package skeleton) is complete.
+- P1-E1-T3 (Pin toolchain and run TypeScript compatibility gate) is complete: `typescript@7.0.2` installed, `tsc -b` passes with zero errors, `infra/docker/Dockerfile` pinned.
 - `AGENTS.md` updated with Section 5 architecture diagrams, package dependency flow, and theme expansion rules.
-- Local `pnpm` execution verified with Corepack on `pnpm@12.15.0`.
 
 ### Next Actions
 
-1. Proceed to `P1-E1-T3` (Pin toolchain and run TypeScript compatibility gate).
-2. Install `typescript@7.0.2` as root devDependency and run `tsc -b` on skeleton.
-3. Commit and push the workspace skeleton to GitHub.
+1. Proceed to `P1-E1-T4` (Add lint, format, test, and task-register validation: ESLint 9, Prettier, Vitest 5.0.5, validate:tasks script).
+2. Proceed to `P1-E2-T1` (Build CI and security pipeline).

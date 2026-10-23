@@ -385,7 +385,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Tests:** `pnpm -r build`; dependency-boundary lint.
 
 ##### P1-E1-T3 — Pin the toolchain and run the TypeScript compatibility gate
-- **Priority:** P0 · **Status:** blocked · **Depends:** P1-E1-T2 · **Decision gate:** D-INFRA (Node image), TS compatibility
+- **Priority:** P0 · **Status:** done · **Depends:** P1-E1-T2 · **Decision gate:** D-INFRA (Node image), TS compatibility
 - **Subtasks:** Node 24.22.1; pnpm 12.15.0; TypeScript 7.0.2; Vite 8.3.5; verify ecosystem compatibility; approve a 6.x fallback if needed.
 - **Acceptance:** exact versions are pinned in `package.json`/lockfile and the Docker image; `tsc -b` passes on the skeleton.
 - **Tests:** CI matrix; lockfile check; Docker build.

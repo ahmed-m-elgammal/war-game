@@ -17,5 +17,8 @@
     "build": "pnpm -r build",
     "test:e2e": "playwright test",
     "validate:tasks": "node scripts/validate-tasks.js"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
   }
 }

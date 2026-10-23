@@ -1078,17 +1078,14 @@
       "epic": "P1-E1",
       "title": "Pin toolchain and run TypeScript compatibility gate",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P1-E1-T2"
       ],
       "decisionGate": [
         "D-INFRA"
       ],
-      "blockedBy": [
-        "G0",
-        "D-INFRA"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "M",
       "acceptance": [
@@ -1101,7 +1098,11 @@
         "Lockfile check",
         "Docker build"
       ],
-      "evidence": []
+      "evidence": [
+        "typescript@7.0.2 installed in devDependencies with pnpm-lock.yaml pinned",
+        "tsc -b passes across all 10 workspace project references with zero errors",
+        "infra/docker/Dockerfile pins node:24.22.1-bookworm-slim and pnpm@12.15.0"
+      ]
     },
     {
       "id": "P1-E1-T4",
