@@ -40,7 +40,7 @@ import type {
   ResourceStockpile,
   JsonObject
 } from "./primitives.js";
-import type { Faction, Rebellion } from "./faction.js";
+import type { Faction, Rebellion, SupportDaily } from "./faction.js";
 import type { WorldRegion, Army, BattleMultipliers } from "./map-military.js";
 import type {
   Alliance,
@@ -78,7 +78,7 @@ export interface WorldState {
   trainingOrders: Record<string, TrainingOrder>;
   abilityCooldowns: Record<string, AbilityCooldown>;
   exAllyCooldowns: Record<string, ExAllyCooldown>;
-  supportDaily: Record<string, unknown>;
+  supportDaily: Record<string, SupportDaily>;
 }
 
 export interface PublicFaction {

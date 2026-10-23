@@ -8,3 +8,4 @@
 export * from "./protocol/index.js";
 export * from "./domain/index.js";
 export * from "./config/env.js";
+export * from "./config/game-config/index.js";

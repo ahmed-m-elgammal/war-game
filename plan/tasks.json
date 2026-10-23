@@ -1269,8 +1269,9 @@
         "O(1) command schema registry COMMAND_PAYLOAD_SCHEMAS and parseCommandPayload helper implemented",
         "DTO schemas and StateView projections implemented matching domain.ts and conforming to approved decisions D-PASS-PROGRESS, D-SEASON-END, and D-CONFIG-PIN",
         "Modular domain implementation completed in packages/shared/src/domain/ with 10 submodules strictly <= 350 LOC (max 205 LOC)",
-        "Automated domain parity & deep interface property validator created in scripts/validate-domain-parity.js checking 100% of symbols (181) and AST interface properties",
-        "Domain parity & data integrity step added to root package.json ('validate:domain') and GitHub Actions CI (.github/workflows/ci.yml)",
+        "Automated domain & protocol contract validator in scripts/validate-domain-parity.js: AST-based two-way interface parity (70 interfaces, including generics, heritage and nested object types), 181-symbol coverage, 42 closed value sets, 16 branded IDs, 25 command payloads, and StateView/public-projection leakage checks",
+        "Fixed WorldState.supportDaily to Record<string, SupportDaily> (was Record<string, unknown>); the previous regex validator could not detect property type drift",
+        "Domain contract validation step added to root package.json ('validate:domain') and GitHub Actions CI (.github/workflows/ci.yml)",
         "Unit tests passing in Vitest covering roundtrips, unknown-field rejection, StateView asymmetric projection, AppError serialization, and error codes"
       ]
     },
@@ -1280,7 +1281,7 @@
       "epic": "P2-E1",
       "title": "Build config package and schema",
       "priority": "P0",
-      "status": "blocked",
+      "status": "in_progress",
       "dependsOn": [
         "P2-E1-T1"
       ],
@@ -1318,7 +1319,14 @@
         "Missing-value failure",
         "Version/hash immutability"
       ],
-      "evidence": []
+      "evidence": [
+        "Scaffolded 2026-10-23: strict Zod GameConfig schema in packages/shared/src/config/game-config/schema.ts mirrors domain/config.ts; missing and unknown fields fail.",
+        "Approved-document envelope rejects status proposed/tbd and any decision that is not approved in plan/tasks.json (document.ts).",
+        "Canonical JSON plus SHA-256 pinning via Web Crypto in hash.ts; World and WorldState already store configVersion/configHash.",
+        "Root config:check gate validates packages/shared/config/game-config/*.json; the directory is intentionally empty until P0-E1-T3 closes.",
+        "25 new Vitest cases (49 total) cover validation, missing-value failure, proposed/tbd rejection, hash stability, and pin immutability.",
+        "Remaining: seed values, the 23 open TBDs in plan/03 section 20.3, D-MAP, and D-WAR-TIME; additional GameConfig sections may be required when those decisions land."
+      ]
     },
     {
       "id": "P2-E1-T3",
@@ -1351,7 +1359,16 @@
         "Mask hit-test",
         "Map hash stability"
       ],
-      "evidence": []
+      "evidence": [
+        "Scaffolded 2026-10-23: packages/map-data/src now defines VardaniaMap, row-major 320x180 mask contracts, province/art metadata, locked map rules, and test-only synthetic fixtures.",
+        "Implemented mask hit-testing, adjacency graph helpers, and canonical map hashing that reuses shared canonicalJsonStringify and sha256Hex.",
+        "Implemented validators for province count/identity, opaque unique mask colours, mask coverage, single landmass, edge-only water, symmetric/connected adjacency, refugee candidate count, art anchors, and spawn invariants (food/water within 2 hops, adjacent designated weak neutral target, non-adjacent player capitals, optional approved minimum capital spacing).",
+        "Vardania has no naval province model: water exists only as mask pixel 0 and all province records are land provinces.",
+        "50 map-data Vitest cases cover mask hit-testing, structural connectivity, spawn invariants, map hash stability, and malformed-input regression cases (including a pinned golden fixture digest).",
+        "Hardened 2026-10-23 after audit: malformed points and province names return structured issues instead of throwing; #000000 is rejected as the reserved water mask colour; art issue paths use array indices; duplicate adjacency entries no longer cascade into repeated asymmetric errors; constants documentation follows the top-of-file convention.",
+        "Root gates pass: pnpm typecheck, lint, format:check, test (99 tests), build, check:rules, validate:domain, validate:tasks, and config:check.",
+        "Remaining: production Vardania names, geometry, terrain/resource layout, mask colours, adjacency, capital placements, and pan/zoom values are blocked by D-MAP; the resource-mix and neutral/AI-buffer guarantees from specs/09 section 6.2 require approved per-world generation rules and are not yet enforced."
+      ]
     },
     {
       "id": "P2-E1-T4",

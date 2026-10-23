@@ -36,7 +36,7 @@ jobs:
       - name: Validate task register integrity
         run: pnpm run validate:tasks
 
-      - name: Validate domain parity & data integrity
+      - name: Validate domain and protocol contract parity
         run: pnpm run validate:domain
 
       - name: Typecheck project references
@@ -56,6 +56,9 @@ jobs:
 
       - name: Build packages and apps
         run: pnpm run build
+
+      - name: Validate approved game config documents
+        run: pnpm run config:check
 
   security-scan:
     name: Dependency Audit & Secret Scan

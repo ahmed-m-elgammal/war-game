@@ -55,6 +55,13 @@
 | Monorepo build | `pnpm run build` | All 10 projects compile cleanly (`tsc -b`) | Pass |
 | G1 Foundation Gate | `plan/tasks.json` | G1 exit criteria met and approved | Pass |
 | Shared Protocol Package | Zod schemas | `packages/shared/src/protocol/` (P2-E1-T1 complete) | Pass |
+| Game config schema | Strict `GameConfig` + decision gate | `packages/shared/src/config/game-config/` (25 tests) | Pass |
+| `config:check` gate | 0 seed documents passes; negative fixture fails | 0 documents, exit 0; proposed/missing fixture exit 1 | Pass |
+| Full unit suite | `pnpm run test` | 6 files, 49 tests passed | Pass |
+| Root quality gate | typecheck, lint, format, test, build, validate:domain, validate:tasks, check:rules | All pass | Pass |
+| Map-data scaffold tests | 43 map-data cases; mask hit-test, connectivity, spawn invariants, hash stability | 4 files, 43 tests passed | Pass |
+| Map-data root gate | Full workspace after map-data changes | 10 files, 92 tests; typecheck, lint, format, build, check:rules, validate:domain, validate:tasks, config:check all pass | Pass |
+| Map-data validation audit | Confirm all six findings, fix real defects, add regressions | 6 confirmed; 50 map-data tests and 99 root tests pass; root gates pass | Pass |
 
 ### Errors
 
@@ -85,12 +92,27 @@
   - $O(1)$ command schema registry `COMMAND_PAYLOAD_SCHEMAS` and `parseCommandPayload`.
   - Domain modularization completed in `packages/shared/src/domain/` across 10 submodules (`primitives.ts`, `account.ts`, `world.ts`, `faction.ts`, `map-military.ts`, `alliance-trade.ts`, `queues.ts`, `state.ts`, `config.ts`, `index.ts`), each strictly <= 350 LOC (max 205 LOC).
   - StateView schema in `protocol/dtos.ts` aligned 100% with domain `StateView` asymmetric fog-of-war contract (§14.2 of `plan/06-data-model.md`).
-  - Automated domain parity & deep interface property validator created in `scripts/validate-domain-parity.js` verifying 100% of symbols (181) and AST interface properties.
-  - Added `"validate:domain"` to root `package.json` and step `Validate domain parity & data integrity` to `.github/workflows/ci.yml`.
+  - Automated domain & protocol contract validator in `scripts/validate-domain-parity.js`: AST-based, two-way interface parity (70 interfaces, including generics, heritage and nested object types), 181-symbol coverage, 42 closed value sets, 16 branded IDs, 25 command payloads, and StateView/public-projection leakage checks.
+  - Added `"validate:domain"` to root `package.json` and step `Validate domain and protocol contract parity` to `.github/workflows/ci.yml`.
+  - Fixed `WorldState.supportDaily` to `Record<string, SupportDaily>` (was `Record<string, unknown>`), a type drift the previous regex-based validator could not detect.
+  - Contract validator split into focused modules under `scripts/lib/` (largest 269 LOC); verified with clean and negative fixtures covering type drift, nested types, generics, enum/brand/registry/projection drift.
   - Unit tests in Vitest covering roundtrips, unknown-field rejection, StateView asymmetric projection, AppError serialization, and error codes.
+- P2-E1-T2 (Build config package and schema) is scaffolded, not complete:
+  - Strict Zod `GameConfig` schema added at `packages/shared/src/config/game-config/schema.ts`, mirroring `domain/config.ts`; missing and unknown fields fail.
+  - Approved-document envelope (`document.ts`) rejects `proposed`/`tbd` status and any decision whose `plan/tasks.json` status is not `approved`.
+  - Canonical JSON plus SHA-256 config hashing (`hash.ts`) pins `configVersion`/`configHash`; tests prove content and version immutability.
+  - Root `config:check` gate scans `packages/shared/config/game-config/*.json`; the directory is intentionally empty until `P0-E1-T3` closes, so no balance value is hardcoded.
+  - Product decision 2026-10-23: scaffold only; seed values and any additional `GameConfig` sections wait for the 23 TBDs in `03` §20.3 plus `D-MAP` and `D-WAR-TIME`.
+- P2-E1-T3 (Build the Vardania map-data package) is scaffolded, not complete:
+  - `packages/map-data` now defines map/province/art/mask contracts, locked map rules, mask hit-testing, adjacency helpers, and canonical map hashing.
+  - Validators cover province count/identity, unique opaque mask colours, mask coverage, one contiguous landmass, edge-only water, symmetric/connected adjacency, refugee candidates, art anchors, and spawn invariants.
+  - 50 map-data Vitest cases cover the required connectivity, spawn, mask hit-test, and map-hash checks; the fixture is synthetic and never exported as Vardania data.
+  - Validation hardening (2026-10-23): malformed point/name inputs return structured issues instead of throwing, `#000000` is rejected as the water mask colour, art issue paths use array indices, duplicate adjacency entries no longer cascade, and constants documentation is top-of-file only. Seven regression tests cover these defects.
+  - Production map content and completion remain blocked by `D-MAP`; resource-mix and neutral/AI-buffer guarantees from `09` §6.2 wait for approved per-world generation rules.
 
 ### Next Actions
 
-1. Proceed to `P2-E1-T2` (Build config package and schema: Zod `GameConfig`, balance constants, config validation, version/hash pinning).
-2. Proceed to `P2-E1-T3` (Build Vardania map-data package).
-3. Proceed to `P2-E1-T4` (Build game-rules primitives: PRNG, clock, math).
+1. Resolve `D-MAP` (final map values, pan/zoom, spawn geometry) before adding production Vardania content.
+2. Complete `P2-E1-T3` once `D-MAP` closes: add approved map content, validate the resource mix and neutral/AI spawn buffer, and record the production map hash.
+3. Complete `P2-E1-T2` after `P0-E1-T3` resolves the `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`: add approved seed documents and any missing `GameConfig` sections.
+4. Proceed to `P2-E1-T4` (Build game-rules primitives: PRNG, clock, math).

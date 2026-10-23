@@ -17,6 +17,7 @@
     "test": "vitest run",
     "build": "pnpm -r build",
     "test:e2e": "playwright test",
+    "config:check": "pnpm --filter @wargame/shared build && node scripts/check-game-config.js",
     "validate:domain": "node scripts/validate-domain-parity.js",
     "validate:tasks": "node scripts/validate-tasks.js"
   },

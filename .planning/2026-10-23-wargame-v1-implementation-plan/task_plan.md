@@ -72,6 +72,7 @@ Phase 6 — Delivery
 | P2-E1-T1 complete (2026-10-23). | Shared protocol package built with branded IDs, strict command schemas, DTOs, AppError, and test suite. |
 | Domain modularization (2026-10-23). | `plan/schemas/domain.ts` modularized into `packages/shared/src/domain/` (10 submodules <= 350 LOC). |
 | CI Data Integrity Validation (2026-10-23). | `validate:domain` script added to CI to enforce 100% domain-parity and protocol alignment. |
+| P2-E1-T2 scaffold only (2026-10-23). | Config schema, approved-document gate, and SHA-256 pinning landed without seed values; seed values wait for `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`. |
 
 ## Errors Encountered
 

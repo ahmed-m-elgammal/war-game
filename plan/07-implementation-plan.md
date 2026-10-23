@@ -433,7 +433,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Tests:** schema roundtrip; unknown-field rejection; error-code coverage; domain parity & data integrity.
 
 ##### P2-E1-T2 — Build the config package and schema
-- **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1-T1, P0 decisions · **Decision gate:** D-PD, D-TBD-*, D-MAP, D-WAR-TIME
+- **Priority:** P0 · **Status:** in_progress · **Depends:** P2-E1-T1, P0 decisions · **Decision gate:** D-PD, D-TBD-*, D-MAP, D-WAR-TIME
 - **Subtasks:** Zod `GameConfig`; units/weapons/skills/abilities/techs/missions/pass/shop; version/hash; `config:check`; seed values only from approved decisions.
 - **Acceptance:** missing or `proposed`/`tbd` values fail; a world can pin a config version/hash; no balance value is hardcoded.
 - **Tests:** config validation; missing-value failure; version/hash immutability.
@@ -443,6 +443,8 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 - **Subtasks:** 320×180 mask; 80–100 provinces; adjacency; terrain/resource; refugee pool; spawn rules; map hash; mask hit-test.
 - **Acceptance:** every province is land-reachable; every capital has food/water within 2 hops and a weak adjacent target; no adjacent player capitals; no naval province.
 - **Tests:** connectivity; spawn invariants; mask hit-test; map hash stability.
+- **Scaffold (2026-10-23):** contracts, validators, mask hit-test, adjacency helpers, and canonical map hash implemented in `packages/map-data` with a synthetic test-only fixture. Production Vardania content, resource-mix checks, and the neutral/AI spawn buffer remain blocked by `D-MAP` and the per-world generation rules.
+- **Validation hardening (2026-10-23):** malformed centroid, anchor, and name inputs now return structured issues instead of throwing; the water mask colour is rejected for provinces; art issue paths use array indices; duplicate adjacency entries no longer cascade into repeated asymmetric errors.
 
 ##### P2-E1-T4 — Build the game-rules primitives
 - **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1-T1, P2-E1-T2 · **Decision gate:** D-PD
