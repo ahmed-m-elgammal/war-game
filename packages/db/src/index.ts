@@ -1,3 +1,10 @@
-// @wargame/db (SERVER ONLY)
-// Drizzle schema and persistence definitions
-export const DB_SCHEMA_VERSION = 1;
+/**
+ * @wargame/db (SERVER ONLY)
+ *
+ * Drizzle schema, table models, and persistence definitions. This package is
+ * strictly server-only; client packages never import or access it.
+ */
+
+export const DB_SCHEMA_VERSION = "2026-10-23.1";
+
+export * from "./schema/index.js";

@@ -488,7 +488,9 @@ The webhook is authenticated and idempotent. It grants or revokes entitlements; 
 | `world_id` | `uuid` | Y | PK. |
 | `name` | `text` | Y | Display name. |
 | `map_id` | `text` | Y | Pinned static map. |
+| `map_hash` | `char(64)` | Y | Pinned map SHA-256 hex digest (D-CONFIG-PIN). |
 | `config_version` | `text` | Y | Pinned balance/config version. |
+| `config_hash` | `char(64)` | Y | Pinned config SHA-256 hex digest (D-CONFIG-PIN). |
 | `status` | `world_status` | Y | `creating`, `open`, `running`, `finished`. |
 | `operational_state` | `operational_state` | N | `paused`, `quarantined`, `archived`; overlay, not a public lifecycle state. |
 | `started_at` | `timestamptz` | C | `T0`; required once open/running/finished. |
@@ -531,6 +533,9 @@ Every snapshot/event write includes `lease_version`. A stale writer's transactio
 | `state_hash` | `bytea` | Y | SHA-256 of canonical uncompressed JSON; 32 bytes. |
 | `last_event_seq` | `bigint` | Y | Last event included. |
 | `config_version` | `text` | Y | Must match the world. |
+| `config_hash` | `char(64)` | Y | Pinned config SHA-256 hex digest (D-CONFIG-PIN). |
+| `map_id` | `text` | Y | Pinned map id. |
+| `map_hash` | `char(64)` | Y | Pinned map SHA-256 hex digest (D-CONFIG-PIN). |
 | `lease_version` | `bigint` | Y | Writer fence. |
 | `created_at` | `timestamptz` | Y | |
 

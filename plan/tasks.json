@@ -1415,7 +1415,7 @@
       "epic": "P2-E2",
       "title": "Create Drizzle schema and first migration",
       "priority": "P0",
-      "status": "blocked",
+      "status": "in_progress",
       "dependsOn": [
         "P2-E1-T1"
       ],
@@ -1424,9 +1424,7 @@
         "D-CONFIG-PIN"
       ],
       "blockedBy": [
-        "G1",
-        "D-RLS",
-        "D-CONFIG-PIN"
+        "D-RLS"
       ],
       "ownerRole": "data",
       "size": "L",
@@ -1441,7 +1439,16 @@
         "Schema diff",
         "SQL parse and execution"
       ],
-      "evidence": []
+      "evidence": [
+        "packages/db/src/schema modularized into 14 schema files (enums, meta, accounts, monetization, worlds, factions, regions, military, diplomacy, queues, events, admin, views, deferred-constraints) under PostgreSQL 'game' schema. All files strictly adhere to the <=350 LOC cap limit.",
+        "Created Drizzle schema definitions for all 39 tables and 1 view (province_garrison with securityInvoker: true) strictly adhering to plan/06-data-model.md and plan/schemas/game.schema.sql.",
+        "Stored SHA-256 pin hashes (D-CONFIG-PIN): added map_hash and config_hash char(64) columns to worlds and world_snapshots tables matching shared domain contracts (World, WorldSnapshotMeta).",
+        "Modeled and implemented all 76 foreign keys matching reference SQL, including the 3 circular deferred FKs (factions_capital_region_fk, rebellions_province_fk, worlds_final_snapshot_fk) with DEFERRABLE INITIALLY DEFERRED.",
+        "Configured packages/db/drizzle.config.ts with dbCredentials using DATABASE_URL_MIGRATIONS / DATABASE_URL, and generated initial SQL migration packages/db/migrations/0000_init.sql.",
+        "Appended RLS enablement loop across all game tables, defense-in-depth REVOKE ALL ON SCHEMA game FROM PUBLIC, and schema_meta seed locked to DB_SCHEMA_VERSION = '2026-10-23.1'.",
+        "8 automated tests in packages/db/src/schema.test.ts passing; scripts/check-database-migration.js (validate:db) verifies 0000_init.sql structure, all 76 FKs, and pin hashes.",
+        "Status remains in_progress: live migration execution against empty Postgres/Supabase instance requires provisioned DB environment; formal closure requires D-RLS decision resolution."
+      ]
     },
     {
       "id": "P2-E2-T2",

@@ -6,11 +6,19 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@wargame/shared": "workspace:*"
+    "@wargame/shared": "workspace:*",
+    "drizzle-orm": "0.45.4",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "0.31.11"
   },
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc --noEmit",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
   }
 }

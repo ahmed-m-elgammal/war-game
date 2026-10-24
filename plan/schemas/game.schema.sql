@@ -151,6 +151,7 @@ create table game.account_entitlements (
   revocation_reason text null,
   metadata jsonb not null default '{}'::jsonb,
 
+  constraint account_entitlement_owner_unique unique (account_id, entitlement_id),
   constraint entitlement_time_order check (expires_at is null or expires_at > granted_at),
   constraint entitlement_pass_expiry check (kind <> 'pass' or expires_at is not null),
   constraint entitlement_revenuecat_event check (
@@ -190,10 +191,13 @@ create table game.pass_periods (
   account_id uuid not null references game.accounts (account_id),
   starts_at timestamptz not null,
   ends_at timestamptz not null,
-  source_entitlement_id uuid not null references game.account_entitlements (entitlement_id),
+  source_entitlement_id uuid not null,
   status game.pass_period_status not null default 'active',
   created_at timestamptz not null default now(),
 
+  constraint pass_period_entitlement_owner_fk
+    foreign key (account_id, source_entitlement_id)
+    references game.account_entitlements (account_id, entitlement_id),
   constraint pass_period_time_order check (ends_at > starts_at),
   constraint pass_period_source_unique unique (source_entitlement_id)
 );
@@ -307,7 +311,9 @@ create table game.worlds (
   world_id uuid primary key,
   name text not null,
   map_id text not null,
+  map_hash char(64) not null,
   config_version text not null,
+  config_hash char(64) not null,
   status game.world_status not null default 'creating',
   operational_state game.operational_state null,
   started_at timestamptz null,
@@ -336,6 +342,11 @@ create table game.worlds (
   ),
   constraint world_operational_state check (
     operational_state is null or status in ('open', 'running', 'finished')
+  ),
+  constraint worlds_map_hash_sha256 check (map_hash ~* '^[0-9a-f]{64}$'),
+  constraint worlds_config_hash_sha256 check (config_hash ~* '^[0-9a-f]{64}$'),
+  constraint worlds_pin_unique unique (
+    world_id, config_version, config_hash, map_id, map_hash
   )
 );
 
@@ -524,6 +535,9 @@ create table game.world_regions (
   constraint region_refugee_state check (
     not is_refugee
     or (owner_faction_id is null and rebel_group_id is null and level = 1)
+  ),
+  constraint region_rebel_last_attacker check (
+    controller_type <> 'rebel' or last_attacker_faction_id is null
   )
 );
 
@@ -854,6 +868,9 @@ create table game.trade_log (
   constraint trade_log_offer_shape check (
     (kind = 'state_exchange' and offer_id is null)
     or (kind <> 'state_exchange' and offer_id is not null)
+  ),
+  constraint trade_log_buyer_null_only_system check (
+    buyer_faction_id is not null or kind = 'state_exchange'
   )
 );
 
@@ -1040,7 +1057,7 @@ create index world_events_command_idx on game.world_events (world_id, command_id
   where command_id is not null;
 
 create table game.world_snapshots (
-  world_id uuid not null references game.worlds (world_id),
+  world_id uuid not null,
   seq bigint not null check (seq > 0),
   tick bigint not null check (tick >= 0),
   effective_at timestamptz not null,
@@ -1048,13 +1065,20 @@ create table game.world_snapshots (
   state_hash bytea not null,
   last_event_seq bigint not null check (last_event_seq >= 0),
   config_version text not null,
+  config_hash char(64) not null,
+  map_id text not null,
+  map_hash char(64) not null,
   lease_version bigint not null check (lease_version >= 0),
   created_at timestamptz not null default now(),
 
   primary key (world_id, seq),
+  foreign key (world_id, config_version, config_hash, map_id, map_hash)
+    references game.worlds (world_id, config_version, config_hash, map_id, map_hash),
 
   constraint snapshot_gzip_nonempty check (octet_length(state_gzip) > 0),
-  constraint snapshot_hash_sha256 check (octet_length(state_hash) = 32)
+  constraint snapshot_hash_sha256 check (octet_length(state_hash) = 32),
+  constraint world_snapshots_map_hash_sha256 check (map_hash ~* '^[0-9a-f]{64}$'),
+  constraint world_snapshots_config_hash_sha256 check (config_hash ~* '^[0-9a-f]{64}$')
 );
 
 comment on table game.world_snapshots is

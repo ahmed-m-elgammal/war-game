@@ -19,7 +19,8 @@
     "test:e2e": "playwright test",
     "config:check": "pnpm --filter @wargame/shared build && node scripts/check-game-config.js",
     "validate:domain": "node scripts/validate-domain-parity.js",
-    "validate:tasks": "node scripts/validate-tasks.js"
+    "validate:tasks": "node scripts/validate-tasks.js",
+    "validate:db": "node scripts/check-database-migration.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
