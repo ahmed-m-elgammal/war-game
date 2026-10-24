@@ -233,7 +233,7 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 | D-PLUGINS | Native social-login and secure-storage packages | `04` §9.8 | Mobile auth | Engineering spike; pin exact versions. |
 | D-ADMIN | Admin hosting and auth model | `04` §9.6, `06` §12.6 | Admin | Product/engineering owns. |
 | D-METRICS | Success-metric source, retention, dashboard | `01` FR-032 | Observability, launch | Product/engineering owns. |
-| D-RLS | Runtime DB role and RLS policy | `06` §15 | DB security | Engineering/security owns. |
+| D-RLS | Runtime DB role and RLS policy | `06` §15 | DB security | Approved 2026-10-24: dedicated runtime role with `BYPASSRLS`; separate migration/backup roles; no client grants. |
 | D-MAP | Final map values, pan/zoom, spawn geometry | `01` §13.2, `02` §19 | Map, client | Design/engineering owns. |
 | D-WAR-TIME | War-window start time per world | `01` §13.2 | World config, client clock | Product/ops owns. |
 | D-PASS-PROGRESS | Per-period vs season-scoped pass progress | PC-02 | Pass | Recommend per-period, matching `09` §14.2. |
@@ -456,19 +456,21 @@ Statuses are `open`, `approved`, `rejected`, or `deferred`. A task whose `decisi
 #### Epic P2-E2 — Database and conformance
 
 ##### P2-E2-T1 — Create the Drizzle schema and first migration
-- **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1-T1 · **Decision gate:** D-RLS, D-CONFIG-PIN
+- **Priority:** P0 · **Status:** done · **Depends:** P2-E1-T1 · **Decision gate:** D-RLS, D-CONFIG-PIN
 - **Subtasks:** translate all 39 tables, enums, checks, indexes, deferred FKs, view; generate migration; review SQL.
 - **Acceptance:** migration runs from empty; schema matches `06`; `province_garrison` is a view; no DB sequence inside a tick.
 - **Tests:** migration up/down where safe; schema diff; SQL parse and execution.
+- **Validation (2026-10-24):** `0000_init.sql` applied to live Supabase project `wargame` (eu-central-1); 39 tables, 40 enums, 407 columns (403 base + 4 view), 76 FKs, 159 checks, 82 indexes, security-invoker view, RLS on all 39 tables, and `schema_meta` `2026-10-23.1` verified. Drizzle journal baselined; Supabase history records `0000_init` and `0001_roles_and_privileges`.
 
 ##### P2-E2-T2 — Configure DB roles, RLS, metadata, and seeds
-- **Priority:** P0 · **Status:** blocked · **Depends:** P2-E2-T1 · **Decision gate:** D-RLS
+- **Priority:** P0 · **Status:** done · **Depends:** P2-E2-T1 · **Decision gate:** D-RLS
 - **Subtasks:** runtime/migration roles; RLS enablement; no client grants; `schema_meta`; shop/config seeds; backup role.
 - **Acceptance:** browser cannot read `game`; runtime role has least privilege; readiness fails on schema-version mismatch.
 - **Tests:** role matrix; RLS denial; schema-version failure.
+- **Validation (2026-10-24):** D-RLS approved (runtime `BYPASSRLS`; separate migrator/backup roles; no client grants). Live role/RLS matrix verified. `packages/db/src/readiness.ts` and server readiness wiring added with mismatch tests. Shop/config seeds remain deferred to `P2-E1-T2`.
 
 ##### P2-E2-T3 — Run domain, SQL, and documentation conformance
-- **Priority:** P0 · **Status:** blocked · **Depends:** P2-E1, P2-E2-T2 · **Decision gate:** none
+- **Priority:** P0 · **Status:** ready · **Depends:** P2-E1, P2-E2-T2 · **Decision gate:** none
 - **Subtasks:** map every `domain.ts` field to storage or transient; check every table PK/ownership/retention; check invariants INV-01–INV-36; run TS/SQL/Markdown checks.
 - **Acceptance:** `06` §18.2 checklist is complete; no exact enemy counts in public types; no app email; no inventory/quest/chat table.
 - **Tests:** strict TypeScript; SQL parser/execution; custom conformance script.

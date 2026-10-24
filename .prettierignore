@@ -4,6 +4,7 @@ build/
 coverage/
 pnpm-lock.yaml
 *.log
+packages/db/migrations/meta/
 .claude/
 .planning/
 plan/

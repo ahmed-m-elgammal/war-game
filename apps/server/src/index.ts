@@ -3,7 +3,11 @@
 import { PROTOCOL_VERSION } from "@wargame/shared";
 import { RULES_VERSION } from "@wargame/game-rules";
 import { MAP_ID } from "@wargame/map-data";
-import { DB_SCHEMA_VERSION } from "@wargame/db";
+import {
+  DB_SCHEMA_VERSION,
+  checkDatabaseSchemaVersion,
+  type SchemaVersionQuery
+} from "@wargame/db";
 
 export function getBootStatus() {
   return {
@@ -13,4 +17,9 @@ export function getBootStatus() {
     schema: DB_SCHEMA_VERSION,
     ready: true
   };
+}
+
+export async function getReadinessStatus(query: SchemaVersionQuery) {
+  await checkDatabaseSchemaVersion(query, DB_SCHEMA_VERSION);
+  return getBootStatus();
 }

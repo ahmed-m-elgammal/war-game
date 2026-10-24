@@ -1005,8 +1005,9 @@ Retention jobs run outside the tick loop, are idempotent, and log counts.
 
 - `anon`/`authenticated` have no direct table grants in `game`.
 - RLS is enabled on every `game` table as defense in depth.
-- Runtime uses a dedicated role with DML on `game`; migrations use a separate role.
-- Supabase service-role key is server-only and used only for Auth admin operations.
+- Runtime uses a dedicated server-only role with DML on `game` and `BYPASSRLS`; migrations use a separate owner role, and backups use a SELECT-only role.
+- Supabase service-role key is server-only, used only for Auth admin operations, and has no `game` schema access.
+- Role passwords are provisioned out-of-band; no database URL or password is committed to the repository.
 - Runtime uses the Supabase pooler in transaction mode; migrations use a direct/session connection.
 - No named prepared statements that break transaction pooling.
 - SSL is required.

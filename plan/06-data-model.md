@@ -369,7 +369,7 @@ A pass is account-wide, rolling 30 days from purchase, and may cross a season bo
 | `account_id` | `uuid` | Y | FK to `accounts`. |
 | `starts_at` | `timestamptz` | Y | Purchase/grant time. |
 | `ends_at` | `timestamptz` | Y | `starts_at + configured term` (30 days default). Must be after start. |
-| `source_entitlement_id` | `uuid` | Y | Unique FK to the pass entitlement. |
+| `source_entitlement_id` | `uuid` | Y | Unique FK to the pass entitlement; must belong to the same `account_id`. |
 | `status` | `pass_period_status` | Y | `active`, `expired`, `revoked`. |
 | `created_at` | `timestamptz` | Y | |
 
@@ -540,6 +540,8 @@ Every snapshot/event write includes `lease_version`. A stale writer's transactio
 | `created_at` | `timestamptz` | Y | |
 
 The snapshot is an accelerator. A command is never acknowledged because a snapshot exists; the command is acknowledged when its input and receipt are durable. Snapshots are written every 60 seconds and on key events.
+
+The snapshot's full pin tuple (`world_id`, `config_version`, `config_hash`, `map_id`, `map_hash`) is a composite foreign key to `worlds`; a snapshot cannot record pin metadata that differs from its world. Both pin hashes are constrained to 64-character hexadecimal strings.
 
 ### 7.4 `world_events`
 
@@ -1316,7 +1318,7 @@ There is no fog of war. Every province and owner is public. The only hidden valu
 
 ## 15. Security, privacy, and operations
 
-- **RLS:** all `game` tables have RLS enabled. `anon`/`authenticated` have no direct schema grant. The runtime role is provisioned outside the schema file; the deployment decides whether it has `BYPASSRLS` or service policies. The browser client never talks to Postgres directly.
+- **RLS:** all `game` tables have RLS enabled. `anon`/`authenticated` have no direct schema grant. D-RLS approved 2026-10-24: the server runtime role is a dedicated login with DML on `game` and `BYPASSRLS`; migrations use a separate owner role and backups use a SELECT-only role. Role passwords are provisioned out-of-band. The browser client never talks to Postgres directly.
 - **Auth:** Supabase Auth is the identity authority. Guests are anonymous Supabase sessions. Social link supports Google/Apple. No email OTP, app email login, or email reminders. Provider email may exist in Supabase Auth but is never copied to `accounts`.
 - **Payments:** RevenueCat is the only purchase authority. Mobile IAP only. The web storefront is read-only. No Stripe, no web checkout, no client receipt trust.
 - **Secrets:** RevenueCat webhook secret, Supabase service key, and Sentry DSN are server-side. Never ship the service-role key to a client.
@@ -1424,7 +1426,7 @@ These are representation refinements, not silent gameplay changes:
 | Mission cadence and targets | TBD | `missions.period_key` and `target` are ready |
 | RevenueCat non-renewing pass mapping | Phase 0 verification | `revenuecat_events` + entitlement grant/expiry shape is provider-neutral |
 | Admin hosting/auth | PROPOSED/TBD | `admin_audit` and `name_reports` exist; admin API/app is separate |
-| RLS runtime role policy | TBD | Schema enables RLS; deployment grants/BYPASSRLS not decided here |
+| RLS runtime role policy | Resolved 2026-10-24: dedicated runtime role with `BYPASSRLS`; separate migration/backup roles; no client grants (D-RLS) | Schema enables RLS; browser roles denied |
 | Account deletion/erasure | TBD | `disabled`/`merged` supported; hard-delete policy not defined |
 | Retention/RPO/RTO | TBD | Retention table is carried from `05`; final numbers need approval |
 | World config/map final values | TBD | `map_id`/`config_version` are pinned; content not final |

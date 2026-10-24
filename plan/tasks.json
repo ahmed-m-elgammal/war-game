@@ -392,7 +392,7 @@
       "id": "D-RLS",
       "name": "Runtime DB role and RLS policy",
       "source": "06 section 15",
-      "status": "open",
+      "status": "approved",
       "blocks": [
         "P1-E2-T2",
         "P2-E2-T1",
@@ -403,7 +403,8 @@
         "P11-E2-T2",
         "P12-E1-T5"
       ],
-      "recommendation": "Engineering and security own."
+      "recommendation": "Approved 2026-10-24: dedicated server runtime role with BYPASSRLS and DML on game; separate migration and backup roles; browser roles receive no game schema access.",
+      "approvedAt": "2026-10-24"
     },
     {
       "id": "D-MAP",
@@ -665,11 +666,11 @@
         "03 section 20.4 checklist"
       ],
       "evidence": [
-      "plan/G0-baseline-approval.md",
-      "specs/09-v1-design-lock.md rows 56-95",
-      "plan/03-gameplay-rules.md section 20.2 and section 20.4",
-      "plan/07-implementation-plan.md D-PD row updated 2026-10-23"
-    ]
+        "plan/G0-baseline-approval.md",
+        "specs/09-v1-design-lock.md rows 56-95",
+        "plan/03-gameplay-rules.md section 20.2 and section 20.4",
+        "plan/07-implementation-plan.md D-PD row updated 2026-10-23"
+      ]
     },
     {
       "id": "P0-E1-T3",
@@ -1384,10 +1385,7 @@
       "decisionGate": [
         "D-PD"
       ],
-      "blockedBy": [
-        "G1",
-        "D-PD"
-      ],
+      "blockedBy": [],
       "ownerRole": "server",
       "size": "L",
       "acceptance": [
@@ -1415,7 +1413,7 @@
       "epic": "P2-E2",
       "title": "Create Drizzle schema and first migration",
       "priority": "P0",
-      "status": "in_progress",
+      "status": "done",
       "dependsOn": [
         "P2-E1-T1"
       ],
@@ -1423,9 +1421,7 @@
         "D-RLS",
         "D-CONFIG-PIN"
       ],
-      "blockedBy": [
-        "D-RLS"
-      ],
+      "blockedBy": [],
       "ownerRole": "data",
       "size": "L",
       "acceptance": [
@@ -1440,14 +1436,19 @@
         "SQL parse and execution"
       ],
       "evidence": [
-        "packages/db/src/schema modularized into 14 schema files (enums, meta, accounts, monetization, worlds, factions, regions, military, diplomacy, queues, events, admin, views, deferred-constraints) under PostgreSQL 'game' schema. All files strictly adhere to the <=350 LOC cap limit.",
-        "Created Drizzle schema definitions for all 39 tables and 1 view (province_garrison with securityInvoker: true) strictly adhering to plan/06-data-model.md and plan/schemas/game.schema.sql.",
-        "Stored SHA-256 pin hashes (D-CONFIG-PIN): added map_hash and config_hash char(64) columns to worlds and world_snapshots tables matching shared domain contracts (World, WorldSnapshotMeta).",
-        "Modeled and implemented all 76 foreign keys matching reference SQL, including the 3 circular deferred FKs (factions_capital_region_fk, rebellions_province_fk, worlds_final_snapshot_fk) with DEFERRABLE INITIALLY DEFERRED.",
-        "Configured packages/db/drizzle.config.ts with dbCredentials using DATABASE_URL_MIGRATIONS / DATABASE_URL, and generated initial SQL migration packages/db/migrations/0000_init.sql.",
-        "Appended RLS enablement loop across all game tables, defense-in-depth REVOKE ALL ON SCHEMA game FROM PUBLIC, and schema_meta seed locked to DB_SCHEMA_VERSION = '2026-10-23.1'.",
-        "8 automated tests in packages/db/src/schema.test.ts passing; scripts/check-database-migration.js (validate:db) verifies 0000_init.sql structure, all 76 FKs, and pin hashes.",
-        "Status remains in_progress: live migration execution against empty Postgres/Supabase instance requires provisioned DB environment; formal closure requires D-RLS decision resolution."
+        "packages/db/src/schema modularized into 14 schema files (enums, meta, accounts, monetization, worlds, factions, regions, military, diplomacy, queues, events, admin, views, deferred-constraints) under the PostgreSQL 'game' schema. All files stay within the <=350 LOC cap.",
+        "Created Drizzle definitions for 39 tables and 1 view matching plan/06-data-model.md and plan/schemas/game.schema.sql: 407 columns, 39 PKs, 3 unique constraints, 76 FKs, 159 checks, and 82 indexes. province_garrison is a security-invoker view over armies/army_units plus neutral_garrisons.",
+        "Implemented D-CONFIG-PIN with char(64) map_hash/config_hash columns on worlds and world_snapshots, SHA-256 hex checks on all four columns, worlds_pin_unique, and world_snapshots_world_pin_fk so a snapshot's full pin tuple must match its world.",
+        "Hardened cross-entity integrity: account_entitlement_owner_unique plus pass_period_entitlement_owner_fk require a pass period's source entitlement to belong to the same account; region_rebel_last_attacker clears last_attacker_faction_id on rebel control; trade_log_buyer_null_only_system permits a null buyer only for state_exchange.",
+        "Modeled all 76 foreign keys, including the 3 circular deferred keys (factions_capital_region_fk, rebellions_province_fk, worlds_final_snapshot_fk) as DEFERRABLE INITIALLY DEFERRED.",
+        "Configured packages/db/drizzle.config.ts to use DATABASE_URL_MIGRATIONS with a DATABASE_URL fallback, and generated packages/db/migrations/0000_init.sql with the idempotent game schema, RLS enablement loop, PUBLIC revoke, and schema_meta seed version '2026-10-23.1'.",
+        "scripts/check-database-migration.js (pnpm validate:db) statically enforces exact table names, per-table column order, enum values, all 76 FKs, deferred-FK manifest SQL parity, pin and ownership constraints, the security-invoker view, no serial/sequence gameplay allocation, identity-table allowlist, RLS, PUBLIC revoke, journal state, and schema_meta version.",
+        "14 Vitest tests in packages/db/src/schema.test.ts and packages/db/src/migration.test.ts pass. The full root gate is green: pnpm format:check, pnpm typecheck, pnpm lint, pnpm test (211 tests), pnpm build, pnpm check:rules, pnpm validate:domain, pnpm validate:tasks, and pnpm validate:db. pnpm --filter @wargame/db generate reports no schema changes.",
+        "Executed 0000_init.sql from an empty PostgreSQL-compatible PGlite 0.3.14 environment using a temporary external harness (not a project dependency): 16/16 checks passed, including 39 tables, 40 enums, 76 FKs, 3 deferred FKs, the view, RLS, seed, valid world/snapshot/pass inserts, deferred commit of the worlds.final_snapshot_seq cycle, and rejections for a non-hex pin, snapshot pin mismatch, cross-account pass entitlement, rebel last attacker, and null non-system buyer. An information_schema diff also confirmed reference parity: 407 columns, 151 enum values, 39 PKs, 3 unique constraints, 76 FKs, 159 checks, and 82 indexes.",
+        "Migrations are forward-only per plan/05 section 9.8 and plan/06 section 16.2; no down migration is generated because the initial schema has no safe down path.",
+        "Executed 0000_init.sql against the live Supabase project wargame (wellhdiorkoxfgedtqie, eu-central-1) on 2026-10-24 via the reviewed SQL. Verified 39 tables, 40 enums, 407 information_schema columns (403 base + 4 view), 76 FKs, 159 checks, 82 indexes, 39 PKs, 3 unique constraints, 39 RLS-enabled tables, 0 policies, the security_invoker province_garrison view, schema_meta '2026-10-23.1', and no public/anon/authenticated game schema access.",
+        "Baselined drizzle.__drizzle_migrations with hash a19a57926ff9e292bee8f5516b8b825ef5c84cc50d62598d646a59f8ed8e3437 and created_at 1792811190552; Supabase migration history records 0000_init and 0001_roles_and_privileges. Drizzle will skip the applied initial migration.",
+        "D-RLS was approved on 2026-10-24; runtime role and RLS closure is tracked in P2-E2-T2. P2-E2-T1 acceptance is complete and the task is done."
       ]
     },
     {
@@ -1456,17 +1457,14 @@
       "epic": "P2-E2",
       "title": "Configure DB roles, RLS, metadata, and seeds",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "dependsOn": [
         "P2-E2-T1"
       ],
       "decisionGate": [
         "D-RLS"
       ],
-      "blockedBy": [
-        "G1",
-        "D-RLS"
-      ],
+      "blockedBy": [],
       "ownerRole": "data+security",
       "size": "M",
       "acceptance": [
@@ -1479,7 +1477,14 @@
         "RLS denial",
         "Schema-version failure"
       ],
-      "evidence": []
+      "evidence": [
+        "D-RLS approved 2026-10-24: dedicated wargame_runtime login with BYPASSRLS and DML on game; wargame_migrator owns game and drizzle and has DDL; wargame_backup has BYPASSRLS and SELECT only; public/anon/authenticated/service_role have no game access.",
+        "Added infra/database/roles.sql and applied it to the live Supabase project. Verified the role matrix: runtime has USAGE plus SELECT/INSERT/UPDATE/DELETE, with no CREATE/TRUNCATE/REFERENCES; backup has SELECT only; migrator has CREATE and ownership; browser roles have USAGE=false. No passwords are stored in the repository; deployment must provision credentials out-of-band.",
+        "RLS remains enabled on all 39 tables with zero policies. A no-BYPASSRLS probe granted SELECT on game.schema_meta saw 0 rows; wargame_runtime saw 1 row through BYPASSRLS. A migrator probe created DDL and wrote a Drizzle journal row in a rolled-back transaction.",
+        "Added packages/db/src/readiness.ts and readiness.test.ts; getReadinessStatus in apps/server/src/index.ts checks game.schema_meta against DB_SCHEMA_VERSION and throws SchemaVersionMismatchError on mismatch. Three readiness tests pass; the root test suite is 211 tests.",
+        "Shop/config seed rows are intentionally not inserted: P2-E1-T2 remains in_progress pending approved values from the 03 section 20.3 TBDs, D-MAP, and D-WAR-TIME. The empty seed state does not add unapproved balance values.",
+        "Full root gate passed on 2026-10-24: format:check, typecheck, lint, test (211), build, check:rules, validate:domain, validate:tasks, and validate:db."
+      ]
     },
     {
       "id": "P2-E2-T3",
@@ -1487,15 +1492,13 @@
       "epic": "P2-E2",
       "title": "Run domain, SQL, and documentation conformance",
       "priority": "P0",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "P2-E1-T4",
         "P2-E2-T2"
       ],
       "decisionGate": [],
-      "blockedBy": [
-        "G1"
-      ],
+      "blockedBy": [],
       "ownerRole": "tech-lead",
       "size": "M",
       "acceptance": [
@@ -1583,8 +1586,7 @@
         "D-RLS"
       ],
       "blockedBy": [
-        "G2",
-        "D-RLS"
+        "G2"
       ],
       "ownerRole": "server",
       "size": "M",
@@ -1960,8 +1962,7 @@
         "D-RLS"
       ],
       "blockedBy": [
-        "G3",
-        "D-RLS"
+        "G3"
       ],
       "ownerRole": "server+data",
       "size": "M",
@@ -3503,8 +3504,7 @@
       ],
       "blockedBy": [
         "G4",
-        "D-INFRA",
-        "D-RLS"
+        "D-INFRA"
       ],
       "ownerRole": "devops+data",
       "size": "L",
@@ -3572,7 +3572,6 @@
       ],
       "blockedBy": [
         "G4",
-        "D-RLS",
         "D-LEGAL"
       ],
       "ownerRole": "security+devops",
@@ -3773,8 +3772,7 @@
       ],
       "blockedBy": [
         "G11",
-        "D-LEGAL",
-        "D-RLS"
+        "D-LEGAL"
       ],
       "ownerRole": "security",
       "size": "L",

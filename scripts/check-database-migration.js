@@ -80,6 +80,95 @@ function parseTableBlocks(sql) {
   return blocks;
 }
 
+function parseReferenceTableBlocks(sql) {
+  const blocks = new Map();
+  const pattern = /^create table game\.([a-z_]+) \(([\s\S]*?)\n\);/gm;
+
+  for (const match of sql.matchAll(pattern)) {
+    blocks.set(match[1], match[2]);
+  }
+  return blocks;
+}
+
+function parseEnumBlocks(sql, pattern) {
+  const blocks = new Map();
+
+  for (const match of sql.matchAll(pattern)) {
+    blocks.set(match[1], match[2]);
+  }
+  return blocks;
+}
+
+function enumValues(block) {
+  return [...block.matchAll(/'([^']*)'/g)].map((match) => match[1]);
+}
+
+function compareOrdered(actual, expected, label, errors) {
+  const missing = expected.filter((value) => !actual.includes(value));
+  const extra = actual.filter((value) => !expected.includes(value));
+
+  if (missing.length > 0) {
+    errors.push(`${label} missing: ${missing.join(", ")}.`);
+  }
+  if (extra.length > 0) {
+    errors.push(`${label} unexpected: ${extra.join(", ")}.`);
+  }
+  if (
+    missing.length === 0 &&
+    extra.length === 0 &&
+    JSON.stringify(actual) !== JSON.stringify(expected)
+  ) {
+    errors.push(`${label} is out of order.`);
+  }
+}
+
+function checkColumnParity(sql, referenceSql, errors) {
+  const tableBlocks = parseTableBlocks(sql);
+  const referenceTableBlocks = parseReferenceTableBlocks(referenceSql);
+  const nonColumnKeywords = new Set(["constraint", "primary", "unique", "foreign", "check"]);
+
+  for (const [table, referenceBlock] of referenceTableBlocks) {
+    const block = tableBlocks.get(table);
+    if (!block) {
+      continue;
+    }
+
+    const migrationColumns = [...block.matchAll(/^\t"([a-z0-9_]+)" /gm)]
+      .map((match) => match[1])
+      .filter((name) => !nonColumnKeywords.has(name));
+    const referenceColumns = [...referenceBlock.matchAll(/^ {2}([a-z_][a-z0-9_]*) /gm)]
+      .map((match) => match[1])
+      .filter((name) => !nonColumnKeywords.has(name));
+
+    compareOrdered(migrationColumns, referenceColumns, `Table ${table} columns`, errors);
+  }
+}
+
+function checkEnumParity(sql, referenceSql, errors) {
+  const migrationEnums = parseEnumBlocks(
+    sql,
+    /CREATE TYPE "game"\."([a-z_]+)" AS ENUM\(([\s\S]*?)\);/g
+  );
+  const referenceEnums = parseEnumBlocks(
+    referenceSql,
+    /^create type game\.([a-z_]+) as enum\s*\(([\s\S]*?)\);/gm
+  );
+
+  for (const [name, referenceBlock] of referenceEnums) {
+    const block = migrationEnums.get(name);
+    if (!block) {
+      continue;
+    }
+
+    compareOrdered(
+      enumValues(block),
+      enumValues(referenceBlock),
+      `Enum game.${name} values`,
+      errors
+    );
+  }
+}
+
 function requireSnippet(sql, snippet, label, errors) {
   if (!sql.includes(snippet)) {
     errors.push(`Missing ${label}.`);
@@ -143,6 +232,9 @@ function checkMigration() {
   if (tableBlocks.size !== EXPECTED_TABLES) {
     errors.push(`Parsed ${tableBlocks.size} table blocks; expected ${EXPECTED_TABLES}.`);
   }
+
+  checkColumnParity(sql, referenceSql, errors);
+  checkEnumParity(sql, referenceSql, errors);
 
   requireSnippet(
     sql,
@@ -322,7 +414,7 @@ function checkMigration() {
   }
 
   console.log(
-    `Success: 0000_init.sql validated against ${EXPECTED_TABLES} tables, ${EXPECTED_ENUMS} enums, 1 view, ${EXPECTED_FOREIGN_KEYS} FKs (3 deferred), pin ownership, RLS, and schema_meta version.`
+    `Success: 0000_init.sql validated against ${EXPECTED_TABLES} tables with column parity, ${EXPECTED_ENUMS} enums with value parity, 1 view, ${EXPECTED_FOREIGN_KEYS} FKs (3 deferred), pin ownership, RLS, and schema_meta version.`
   );
 }
 

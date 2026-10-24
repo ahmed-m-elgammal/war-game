@@ -62,6 +62,10 @@
 | Map-data scaffold tests | 43 map-data cases; mask hit-test, connectivity, spawn invariants, hash stability | 4 files, 43 tests passed | Pass |
 | Map-data root gate | Full workspace after map-data changes | 10 files, 92 tests; typecheck, lint, format, build, check:rules, validate:domain, validate:tasks, config:check all pass | Pass |
 | Map-data validation audit | Confirm all six findings, fix real defects, add regressions | 6 confirmed; 50 map-data tests and 99 root tests pass; root gates pass | Pass |
+| Live Supabase schema execution | `0000_init.sql` applies from an empty project | 39 tables, 40 enums, 407 columns, 76 FKs, 159 checks, 82 indexes; RLS 39/39; `schema_meta` `2026-10-23.1` | Pass |
+| Live role matrix | Runtime DML + `BYPASSRLS`; backup SELECT; browser denied | Verified through Supabase MCP privilege queries and `SET ROLE` probes | Pass |
+| Readiness mismatch | Mismatch or missing version fails | 3 Vitest cases pass | Pass |
+| P2-E2-T1/T2 root gate | Full required command set | `format:check`, `typecheck`, `lint`, 211 tests, `build`, `check:rules`, `validate:domain`, `validate:tasks`, and `validate:db` all pass | Pass |
 
 ### Errors
 
@@ -117,10 +121,27 @@
   - 83 game-rules Vitest cases across 7 files pass; the full suite is 181 tests. Root `typecheck`, `lint`, `format:check`, `test`, `build`, `check:rules`, `validate:domain`, `validate:tasks`, and `config:check` pass.
   - `scripts/check-code-rules.js` now enforces the game-rules purity boundary; a temporary `node:fs/promises` + `Date.now()` + `Math.random()` probe failed with three expected violations and was deleted.
   - Dependency reconciliation: `P2-E1-T2` remains `in_progress` for approved seed values; T4 consumes injected schedules/rates and does not need those seeds.
+- P2-E2-T1 (Create Drizzle schema and first migration) completed 2026-10-24:
+  - `packages/db` defines 39 tables, 40 enums, 407 columns (403 base + 4 view), 159 checks, 82 indexes, and the `security_invoker` `province_garrison` view under the `game` schema.
+  - D-CONFIG-PIN is enforced in SQL: SHA-256 pin columns, format checks, `worlds_pin_unique`, and the composite `world_snapshots_world_pin_fk`. Snapshot pins cannot diverge from their world.
+  - Cross-entity guards prevent a pass period from using another account's entitlement, a rebel province from retaining a last attacker, and a null trade buyer outside a state exchange.
+  - 76 FKs match the reference schema, including the three deferred circular keys; a transaction test proved `worlds.final_snapshot_seq` defers to commit.
+  - `pnpm validate:db` checks exact table names, per-table column order, enum values, deferred-FK manifest SQL, pin/ownership guards, view shape, sequence bans, identity allowlist, RLS, revoke, journal, and seed version.
+  - `0000_init.sql` executed cleanly in an empty PGlite Postgres environment (16/16 checks) and matches the reference schema.
+  - Applied `0000_init.sql` to live Supabase project `wargame` (`wellhdiorkoxfgedtqie`, `eu-central-1`). Verified 39 tables, 40 enums, 407 columns, 76 FKs, 159 checks, 82 indexes, 39 PKs, 3 unique constraints, 39 RLS-enabled tables, 0 policies, the view, `schema_meta` `2026-10-23.1`, and no `public`/`anon`/`authenticated`/`service_role` game access.
+  - Baselined `drizzle.__drizzle_migrations` with hash `a19a57926ff9e292bee8f5516b8b825ef5c84cc50d62598d646a59f8ed8e3437` and `created_at` `1792811190552`; Supabase migration history records `0000_init` and `0001_roles_and_privileges`.
+- P2-E2-T2 (Configure DB roles, RLS, metadata, and seeds) completed 2026-10-24:
+  - D-RLS approved: dedicated runtime role with `BYPASSRLS`; separate migration and backup roles; no client grants.
+  - Added `infra/database/roles.sql` and applied it live. `wargame_runtime` has `USAGE` plus `SELECT`/`INSERT`/`UPDATE`/`DELETE`, with no `CREATE`/`TRUNCATE`/`REFERENCES`; `wargame_backup` has SELECT only; `wargame_migrator` owns `game`/`drizzle` and can run DDL; browser roles have no game access.
+  - RLS remains enabled on all 39 tables with zero policies. A no-`BYPASSRLS` probe saw 0 `schema_meta` rows; `wargame_runtime` saw 1 row. A migrator probe created DDL and wrote a Drizzle journal row in a rolled-back transaction.
+  - Added `packages/db/src/readiness.ts` and readiness tests; wired `getReadinessStatus` in `apps/server/src/index.ts` to fail on schema-version mismatch.
+  - Shop/config seeds remain intentionally empty while `P2-E1-T2` waits for the `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`; no unapproved values were added.
+  - 211 root tests pass. The full root gate is recorded below.
 
 ### Next Actions
 
-1. Resolve `D-MAP` (final map values, pan/zoom, spawn geometry) before adding production Vardania content.
-2. Complete `P2-E1-T3` once `D-MAP` closes: add approved map content, validate the resource mix and neutral/AI spawn buffer, and record the production map hash.
-3. Complete `P2-E1-T2` after `P0-E1-T3` resolves the `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`: add approved seed documents and any missing `GameConfig` sections.
-4. `P2-E1-T4` is complete; start the next implementation task only after its gates and dependencies are approved.
+1. Root gate completed 2026-10-24: `pnpm format:check`, `pnpm typecheck`, `pnpm lint`, `pnpm test` (211 tests), `pnpm build`, `pnpm check:rules`, `pnpm validate:domain`, `pnpm validate:tasks`, and `pnpm validate:db` all pass.
+2. Start `P2-E2-T3` (domain, SQL, and documentation conformance) once the gate is green.
+3. Complete `P2-E1-T2` only after `P0-E1-T3` resolves the `03` §20.3 TBDs, `D-MAP`, and `D-WAR-TIME`; then add approved config/shop seed documents.
+4. Resolve `D-MAP` before adding production Vardania content.
+5. Do not commit, push, or deploy without explicit approval.
